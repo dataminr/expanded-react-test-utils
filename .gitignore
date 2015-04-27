@@ -1,0 +1,8 @@
+**/node_modules
+**/bower_components
+.sass-cache/
+.grunt/
+**/compiled
+**/dist
+_SpecRunner.html
+**/coverage
