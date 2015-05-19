@@ -2,7 +2,8 @@
     "name": "expanded-react-test-utils",
     "version": "0.0.1",
     "devDependencies": {
-        "jasmine-expect": "1.22.3"
+        "jasmine-expect": "1.22.3",
+        "reveal.js": "3.1.0"
     },
     "dependencies": {
         "flux": "2.0.2",
