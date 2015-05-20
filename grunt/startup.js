@@ -1,6 +1,10 @@
 'use strict';
 
 module.exports.tasks = {
+    /**
+     * Compass compile task. Compiles everything under the app/sass
+     * directory into a single file in app/dist
+     */
     compass: {
         dist: {
             options: {
@@ -11,22 +15,51 @@ module.exports.tasks = {
         }
     },
 
+    /**
+     * RequireJS build task. Compiles test utility file and dependency
+     * files (except 3rd party code) into a single file under dist
+     */
+    requirejs: {
+        compile: {
+            options: {
+                baseUrl: "lib",
+                paths: {
+                    CssSelectorParser: "CssSelectorParser",
+                    TestLocation: "TestLocation",
+                    react: "empty:",
+                    "react-router": "empty:",
+                    "lodash": "empty:"
+                },
+                name: "ExpandedTestUtils",
+                out: "dist/ExpandedTestUtils.min.js",
+                optimize: 'uglify2',
+                uglify2: {
+                    output: {
+                        beautify: true
+                    }
+                },
+            }
+        }
+    },
+
+    /**
+     * File watcher for Sass and RequireJS compile steps. Automatically
+     * rebuilds sass and test utility file on change.
+     */
     watch: {
-        scripts: {
+        sass: {
             files: ['app/sass/**/*.scss'],
             tasks: ['compass']
+        },
+        compile: {
+            files: ['lib/*.js'],
+            tasks: ['requirejs']
         }
     },
 
     shell: {
         cleanCompiledDirectory: {
             command: 'rm -rf app/compiled',
-            options: {
-                async: true
-            }
-        },
-        compassWatcher: {
-            command: 'grunt compass && grunt watch',
             options: {
                 async: true
             }

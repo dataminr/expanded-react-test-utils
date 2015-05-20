@@ -1,6 +1,29 @@
 {
     "name": "expanded-react-test-utils",
-    "version": "0.0.1",
+    "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:dataminr/expanded-react-test-utils.git"
+    },
+    "licenses": [
+        {
+            "type": "MIT"
+        }
+    ],
+    "bugs": {
+        "url": "https://github.com/dataminr/expanded-react-test-utils/issues"
+    },
+    "homepage": "https://github.com/dataminr/expanded-react-test-utils",
+    "ignore": [
+        "app",
+        "bin",
+        "grunt",
+        "lib",
+        ".*",
+        "Gruntfile.js",
+        "init.sh",
+        "package.json",
+    ],
     "devDependencies": {
         "jasmine-expect": "1.22.3"
     },
@@ -11,5 +34,7 @@
         "react": "0.13.3",
         "react-router": "0.13.3",
         "jquery": "2.1.4"
-    }
+    },
+    "author": "Dataminr",
+    "license": "MIT"
 }

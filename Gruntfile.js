@@ -14,18 +14,23 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-eslint');
     grunt.loadNpmTasks('grunt-open');
     grunt.loadNpmTasks('grunt-shell-spawn');
 
     /**
-     * Default task to be used by developers. Kill any existing processes, compile JSX/SASS
+     * Default task to be used by developers. Clean up compiled directories, compile JSX/SASS and
+     * start watchers for compile-on-file-change
      */
     grunt.registerTask('default', [
         'shell:cleanCompiledDirectory',
-        'shell:compassWatcher',
-        'shell:jsxWatcher'
+        'compass',
+        'requirejs',
+        'shell:jsxCompile',
+        'shell:jsxWatcher',
+        'watch',
     ]);
 
     /**

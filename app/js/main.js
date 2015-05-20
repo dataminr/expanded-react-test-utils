@@ -19,7 +19,7 @@ define(function(require) {
 
     var routes =
         <Route name="app" path="/" handler={App}>
-            <DefaultRoute name="main" path="main" handler={Placeholder}/>
+            <DefaultRoute name="main" handler={Placeholder}/>
         </Route>;
 
     Router.run(routes, function(Handler, state) {
