@@ -3,8 +3,6 @@ require.config({
     paths: {
         main: 'main',
 
-        ExpandedTestUtils: '../../dist/ExpandedTestUtils.min',
-
         // Third Party
         flux: '../../bower_components/flux/dist/Flux',
         jquery: '../../bower_components/jquery/dist/jquery.min',

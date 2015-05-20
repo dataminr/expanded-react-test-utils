@@ -32,7 +32,7 @@ module.exports = function(grunt, options) {
                                 'lodash': '../../../bower_components/lodash/dist/lodash',
                                 'react': '../../../bower_components/react/react-with-addons',
                                 'react-router': '../../../bower_components/react-router/build/global/ReactRouter.min',
-                                'testUtil': '../../../app/compiled/tests/util'
+                                ExpandedTestUtils: '../../../dist/ExpandedTestUtils.min',
                             },
                             callback: function () {
                                 define('instrumented', ['module'], function (module) {
