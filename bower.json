@@ -23,7 +23,7 @@
         ".*",
         "Gruntfile.js",
         "init.sh",
-        "package.json",
+        "package.json"
     ],
     "devDependencies": {
         "jasmine-expect": "1.22.3",
