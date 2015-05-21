@@ -27,7 +27,8 @@ ExpandedTestUtils: '/bower_components/expanded-react-test-utils/dist/ExpandedTes
 ### mockReactComponent
 ```javascript
 //Mock single component
-JasmineSpy mockReactComponent(ReactComponent component, object additionalProps)//Mock multiple components
+JasmineSpy mockReactComponent(ReactComponent component, object additionalProps)
+//Mock multiple components
 JasmineSPy mockReactComponent(object mocks)
 ```
 
@@ -55,7 +56,7 @@ beforeEach(function(){
 ### getRouterComponent
 ```javascript
 ReactComponent getRouterComponent(ReactComponent component, object props, string path)
-```javascript
+```
 
 Similar to the existing `renderIntoDocument` method, but wraps component within a mock `Router` so all router mixins and functionality work properly.
 
