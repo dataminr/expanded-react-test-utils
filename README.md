@@ -52,6 +52,7 @@ beforeEach(function(){
     //All instances of <Item/> within the <ItemList /> component will now be replaced by empty <div> elements, but will continue to keep the same props 
 });
 ```
+***
 
 ### getRouterComponent
 ```javascript
@@ -67,6 +68,8 @@ beforeEach(function(){
     //Render the <ItemList/> component into the DOM, but wrap it in a mocked router. The path provided will be the route to be matched
 });
 ```
+
+***
 
 ### scryRenderedDOMComponentsWithSelector
 ``` javascript
@@ -86,6 +89,8 @@ it('contains proper icon classes', function(){
 });
 ```
 
+***
+
 ### findRenderedDOMComponentWithSelector
 ```javascript
 ReactComponent findRenderedDOMComponentWithSelector(ReactComponent tree, string selector)
@@ -103,6 +108,8 @@ it('contains proper icon classes', function(){
 });
 ```
 
+***
+
 ### findComponentCountWithClassname
 ```javascript
 bool findComponentCountWithClassname(ReactComponent tree, string className, int count=1)
@@ -117,6 +124,8 @@ it('contains proper icon classes', function(){
     expect(ExpandedTestUtils.findComponentCountWithClassname(itemList, 'fa-user', 3)).toEqual(true);
 });
 ```
+
+***
 
 ### findComponentCountWithSelector
 ```javascript
