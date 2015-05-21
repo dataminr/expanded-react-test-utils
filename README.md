@@ -36,7 +36,7 @@ JasmineSPy mockReactComponent(object mocks)
 
 Fully mocks a component given it's name and replaces it with an empty DIV at render time. Also allows you to append any additional props to the component which will overwrite values passed to child. This method is ideally called once before all component unit tests are run.
 
-#### Example
+##### Example
 ```javascript
 before(function(){
     //Mock out a the 'Item' React component, and add the provided className to all found instances
@@ -61,7 +61,7 @@ ReactComponent getRouterComponent(ReactComponent component, object props, string
 
 Similar to the existing `renderIntoDocument` method, but wraps component within a mock `Router` so all router mixins and functionality work properly.
 
-#### Example
+##### Example
 ```javascript
 beforeEach(function(){
     itemList = ExpandedTestUtils.getRouterComponent(ItemList, {count: 3}, 'results');
@@ -78,7 +78,7 @@ array scryRenderedDOMComponentsWithSelector(ReactComponent tree, string selector
 
 Find all instances of components in the provided tree that match the provided CSS selector. Read the CSS Selector Syntax Support section below for details on what types of selectors are supported.
 
-#### Example
+##### Example
 ```javascript
 it('contains proper icon classes', function(){
     //Get the list of all elements matching the selector
@@ -98,7 +98,7 @@ ReactComponent findRenderedDOMComponentWithSelector(ReactComponent tree, string 
 
 Find a single component in the provided tree that matches the provided CSS selector. Will throw an error if zero or more than 1 component is found. Read the CSS Selector Syntax Support section below for details on what types of selectors are supported.
 
-#### Example
+##### Example
 ```javascript
 it('contains proper icon classes', function(){
     //Find the correct submit button via selector and simulate a click event
@@ -117,7 +117,7 @@ bool findComponentCountWithClassname(ReactComponent tree, string className, int 
 
 Used to ensure that the correct number of elements with the provided class name are present in the provided tree. Provides a quick way to ensure that the right number of elements are present. The count defaults to 1 if not provided.
 
-#### Example
+##### Example
 ```javascript
 it('contains proper icon classes', function(){
     //Ensure that this tree contains 3 elements with fa-user class
@@ -134,7 +134,7 @@ bool findComponentCountWithSelector(ReactComponent tree, string selector, int co
 
 Used to ensure that the correct number of elements with the provided CSS selector are present in the provided tree. Provides a quick way to ensure that the right number of elements are present. The count defaults to 1 if not provided. Read the CSS Selector Syntax Support section below for details on what types of selectors are supported.
 
-#### Example
+##### Example
 ```javascript
 it('contains proper icon classes', function(){
     //Assert that there are no failure elements in the tree
