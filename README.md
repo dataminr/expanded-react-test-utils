@@ -24,8 +24,12 @@ ExpandedTestUtils: '/bower_components/expanded-react-test-utils/dist/ExpandedTes
 
 ## Testing Methods
 
-### JasmineSpy mockReactComponent(ReactComponent component, object additionalProps) - Mock single component
-### mockReactComponent(object mocks) - Mock multiple components
+### mockReactComponent
+```javascript
+//Mock single component
+JasmineSpy mockReactComponent(ReactComponent component, object additionalProps)//Mock multiple components
+JasmineSPy mockReactComponent(object mocks)
+```
 
 *Requires global [Jasmine](http://jasmine.github.io/) include for spies*
 
@@ -48,7 +52,10 @@ beforeEach(function(){
 });
 ```
 
-### ReactComponent getRouterComponent(ReactComponent component, object props, string path)
+### getRouterComponent
+```javascript
+ReactComponent getRouterComponent(ReactComponent component, object props, string path)
+```javascript
 
 Similar to the existing `renderIntoDocument` method, but wraps component within a mock `Router` so all router mixins and functionality work properly.
 
@@ -60,7 +67,10 @@ beforeEach(function(){
 });
 ```
 
-### array scryRenderedDOMComponentsWithSelector(ReactComponent tree, string selector)
+### scryRenderedDOMComponentsWithSelector
+``` javascript
+array scryRenderedDOMComponentsWithSelector(ReactComponent tree, string selector)
+```
 
 Find all instances of components in the provided tree that match the provided CSS selector. Read the CSS Selector Syntax Support section below for details on what types of selectors are supported.
 
@@ -75,7 +85,10 @@ it('contains proper icon classes', function(){
 });
 ```
 
-### ReactComponent findRenderedDOMComponentWithSelector(ReactComponent tree, string selector)
+### findRenderedDOMComponentWithSelector
+```javascript
+ReactComponent findRenderedDOMComponentWithSelector(ReactComponent tree, string selector)
+```
 
 Find a single component in the provided tree that matches the provided CSS selector. Will throw an error if zero or more than 1 component is found. Read the CSS Selector Syntax Support section below for details on what types of selectors are supported.
 
@@ -89,7 +102,10 @@ it('contains proper icon classes', function(){
 });
 ```
 
-### bool findComponentCountWithClassname(ReactComponent tree, string className, int count=1)
+### findComponentCountWithClassname
+```javascript
+bool findComponentCountWithClassname(ReactComponent tree, string className, int count=1)
+```
 
 Used to ensure that the correct number of elements with the provided class name are present in the provided tree. Provides a quick way to ensure that the right number of elements are present. The count defaults to 1 if not provided.
 
@@ -101,7 +117,10 @@ it('contains proper icon classes', function(){
 });
 ```
 
-### bool findComponentCountWithSelector(ReactComponent tree, string selector, int count=1)
+### findComponentCountWithSelector
+```javascript
+bool findComponentCountWithSelector(ReactComponent tree, string selector, int count=1)
+```
 
 Used to ensure that the correct number of elements with the provided CSS selector are present in the provided tree. Provides a quick way to ensure that the right number of elements are present. The count defaults to 1 if not provided. Read the CSS Selector Syntax Support section below for details on what types of selectors are supported.
 
