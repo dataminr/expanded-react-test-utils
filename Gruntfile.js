@@ -28,7 +28,6 @@ module.exports = function(grunt) {
         'shell:cleanCompiledDirectory',
         'compass',
         'requirejs',
-        'shell:jsxCompile',
         'shell:jsxWatcher',
         'watch',
     ]);
