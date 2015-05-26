@@ -1,42 +1,42 @@
 {
-    "name": "expanded-react-test-utils",
-    "version": "0.1.0",
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:dataminr/expanded-react-test-utils.git"
-    },
-    "licenses": [
-        {
-            "type": "MIT"
-        }
-    ],
-    "bugs": {
-        "url": "https://github.com/dataminr/expanded-react-test-utils/issues"
-    },
-    "homepage": "https://github.com/dataminr/expanded-react-test-utils",
-    "ignore": [
-        "app",
-        "bin",
-        "grunt",
-        "lib",
-        "slides",
-        ".*",
-        "Gruntfile.js",
-        "init.sh",
-        "package.json"
-    ],
-    "devDependencies": {
-        "jasmine-expect": "1.22.3",
-        "reveal.js": "3.1.0"
-    },
-    "dependencies": {
-        "flux": "2.0.2",
-        "lodash": "3.9.0",
-        "requirejs": "2.1.17",
-        "react": "0.13.3",
-        "react-router": "0.13.3",
-        "jquery": "2.1.4"
-    },
-    "author": "Dataminr",
-    "license": "MIT"
+  "name": "expanded-react-test-utils",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dataminr/expanded-react-test-utils.git"
+  },
+  "licenses": [
+    {
+      "type": "MIT"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/dataminr/expanded-react-test-utils/issues"
+  },
+  "homepage": "https://github.com/dataminr/expanded-react-test-utils",
+  "ignore": [
+    "app",
+    "bin",
+    "grunt",
+    "lib",
+    "slides",
+    ".*",
+    "Gruntfile.js",
+    "init.sh",
+    "package.json"
+  ],
+  "devDependencies": {
+    "jasmine-expect": "1.22.3",
+    "reveal.js": "3.1.0"
+  },
+  "dependencies": {
+    "lodash": "3.9.0",
+    "requirejs": "2.1.17",
+    "react": "0.13.3",
+    "react-router": "0.13.3",
+    "jquery": "2.1.4",
+    "highmaps": "1.0.1"
+  },
+  "author": "Dataminr",
+  "license": "MIT"
 }

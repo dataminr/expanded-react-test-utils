@@ -3,15 +3,14 @@ define(function(require) {
 
     var React = require('react');
     var Router = require('react-router');
-    var Placeholder = require('components/Placeholder');
+    var Page = require('components/Page');
     var Route = Router.Route, DefaultRoute = Router.DefaultRoute, RouteHandler = Router.RouteHandler;
 
     var App = React.createClass({
         render: function() {
             return (
                 <div className="app-component">
-                    <h1>Expanded React Test Utils</h1>
-                    <RouteHandler {...this.props}/>
+                    <RouteHandler {...this.props} />
                 </div>
             );
         }
@@ -19,10 +18,10 @@ define(function(require) {
 
     var routes =
         <Route name="app" path="/" handler={App}>
-            <DefaultRoute name="main" handler={Placeholder}/>
+            <DefaultRoute name="main" handler={Page} />
         </Route>;
 
     Router.run(routes, function(Handler, state) {
-        React.render(<Handler params={state.params}/>, document.body);
+        React.render(<Handler params={state.params} />, document.body);
     });
 });

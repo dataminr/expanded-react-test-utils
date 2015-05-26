@@ -77,9 +77,9 @@ module.exports.tasks = {
             }
         },
         jsxWatcher: {
-            command: 'jsx --watch app/js/ app/compiled/',
+            command: 'jsx --watch app/js/ app/compiled/ &',
             options: {
-                async: false
+                async: true
             }
         },
         options: {
