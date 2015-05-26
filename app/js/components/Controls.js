@@ -10,10 +10,6 @@ define(function(require) {
             toggleAgeCallback: React.PropTypes.func.isRequired
         },
 
-        componentDidMount: function() {
-            this.selectedAges = {};
-        },
-
         render: function() {
             var ageControls = this.getAgeControlsMarkup();
 
@@ -43,21 +39,22 @@ define(function(require) {
         getAgeToggleMarkup: function(age, key) {
             return (
                 <div className="age-type" key={key}>
-                    <input ref={key} type="checkbox" onChange={this.toggleAgeHandler.bind(this, key)} />
+                    <input ref={key} type="checkbox" checked={this.props.selectedAges[key]} onChange={this.toggleAgeHandler.bind(this, key)} />
                     <span>{age.label}</span>
                 </div>
             );
         },
 
         toggleAgeHandler: function(key) {
-            this.selectedAges[key] = this.refs[key].getDOMNode().checked;
             /* TODO:
-            * Ideally this would trigger an action to place this state in a Flux store.
-            * A change event would then be received by the Page component to propagate the new state to child
-            * components. To limit scope of this application we've decided to handle this through a simple callback
-            * to set the state on the parent component.
-            */
-            this.props.toggleAgeCallback(this.selectedAges);
+             * Ideally this would trigger an action to place this state in a Flux store.
+             * A change event would then be received by the Page component to propagate the new state to child
+             * components. To limit scope of this application we've decided to handle this through a simple callback
+             * to set the state on the parent component.
+             */
+            var selectedAges = _.clone(this.props.selectedAges);
+            selectedAges[key] = this.refs[key].getDOMNode().checked;
+            this.props.toggleAgeCallback(selectedAges);
         }
     });
 });

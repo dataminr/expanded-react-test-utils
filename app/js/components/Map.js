@@ -14,6 +14,8 @@ define(function(require) {
         },
 
         componentDidMount: function() {
+            var mapData = this.calculateData();
+
             this.chart = new Highcharts.Map({
                 chart: {
                     renderTo: 'container',
@@ -50,6 +52,10 @@ define(function(require) {
         },
 
         componentDidUpdate: function() {
+            this.chart.series[0].setData(this.calculateData());
+        },
+
+        calculateData: function() {
             var keys = [];
 
             _.each(_.keys(this.props.selectedAges), function(age) {
@@ -66,7 +72,7 @@ define(function(require) {
                 }, this);
             }, this);
 
-            this.chart.series[0].setData(mapData);
+            return mapData;
         },
 
         render: function() {

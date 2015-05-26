@@ -10,7 +10,15 @@ define(function(require) {
     return React.createClass({
         getInitialState: function() {
             return {
-                selectedAges: {}
+                selectedAges: {
+                    fifteenToNineteen: true,
+                    fiveToNine: true,
+                    tenToFourteen: true,
+                    thirtyToThirtyFour: true,
+                    twentyFiveToTwentyNine: true,
+                    twentyToTwentyFour: true,
+                    underFive: true
+                }
             }
         },
 
@@ -25,7 +33,7 @@ define(function(require) {
         },
 
         getControlsMarkup: function() {
-            return <Controls ageData={ageData} toggleAgeCallback={this.updateSelectedAges} />;
+            return <Controls ageData={ageData} selectedAges={this.state.selectedAges} toggleAgeCallback={this.updateSelectedAges} />;
         },
 
         getListMarkup: function() {
