@@ -7,3 +7,4 @@ app/dist
 _SpecRunner.html
 **/coverage
 .DS_Store
+.jshintrc
