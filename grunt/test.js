@@ -11,9 +11,10 @@ module.exports = function(grunt, options) {
                 '!app/compiled/main.js', '!app/compiled/**/tests/*.js'],
             options: {
                 specs: ['app/compiled/**/*.test.js'],
+                keepRunner: true,
                 helpers: [
                     'app/compiled/tests/bind-polyfill.js',
-                    'app/compiled/tests/mock-ajax.js',
+                    //'app/compiled/tests/mock-ajax.js',
                     //Expanded Jasmine assertions - https://github.com/JamieMason/Jasmine-Matchers
                     'bower_components/jasmine-expect/dist/jasmine-matchers.js'
                 ],
@@ -27,11 +28,12 @@ module.exports = function(grunt, options) {
                         requireConfig: {
                             baseUrl: 'app/compiled/',
                             paths: {
-                                flux: '../../../bower_components/flux/dist/Flux',
-                                'jquery': '../../../bower_components/jquery/dist/jquery',
-                                'lodash': '../../../bower_components/lodash/dist/lodash',
-                                'react': '../../../bower_components/react/react-with-addons',
-                                'react-router': '../../../bower_components/react-router/build/global/ReactRouter.min',
+                                jquery: '../../../bower_components/jquery/dist/jquery',
+                                lodash: '../../../bower_components/lodash/lodash.min',
+                                react: '../../../bower_components/react/react-with-addons',
+                                highmaps: '../../../bower_components/highmaps/highmaps',
+                                'highmaps-theme': '../../../bower_components/highmaps/themes/dark-unica',
+                                'react-router': '../../../bower_components/react-router/build/umd/ReactRouter.min',
                                 ExpandedTestUtils: '../../../dist/ExpandedTestUtils.min',
                             },
                             callback: function () {
@@ -71,7 +73,7 @@ module.exports = function(grunt, options) {
             target: [
                 'app/**/*.js',
                 '!app/compiled/**/*.js',
-                '!app/js/lib/*.js',
+                '!app/js/stores/data/*.js',
                 '!app/js/tests/*.js',
                 '!app/**/*.test.js'
             ]
@@ -95,7 +97,10 @@ module.exports = function(grunt, options) {
          * @type {Object}
          */
         open: {
-            all: {
+            test: {
+                path: 'http://localhost:<%= connect.all.options.port%>/_SpecRunner.html'
+            },
+            cov: {
                 // Gets the port from the connect configuration
                 path: 'http://localhost:<%= connect.all.options.port%>/bin/'
             }

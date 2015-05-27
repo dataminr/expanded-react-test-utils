@@ -51,11 +51,21 @@ module.exports = function(grunt) {
     ]);
 
     /**
+     * Run jasmine tests and open browser to run and view results there. Useful to
+     * help debug tests by being able to open dev tools and add debugger statements.
+     */
+    grunt.registerTask('jasmineDebug', [
+        'jasmine',
+        'open:test',
+        'connect'
+    ]);
+
+    /**
      * Runs tests and opens users browser to coverage report
      */
     grunt.registerTask('test:cov', [
         'test',
-        'open',
+        'open:cov',
         'connect'
     ]);
 };

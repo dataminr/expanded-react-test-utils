@@ -3,30 +3,47 @@ define(function(require) {
 
     var _ = require('lodash');
     var React = require('react');
+    var AgeStore = require('stores/AgeStore');
 
-    return React.createClass({
+    var Controls = React.createClass({
         propTypes: {
             ageData: React.PropTypes.object.isRequired,
-            toggleAgeCallback: React.PropTypes.func.isRequired
+            selectedAges: React.PropTypes.object.isRequired
         },
 
-        render: function() {
-            var ageControls = this.getAgeControlsMarkup();
+        /**
+         * Updates the state of an age group within the store, givin it's key
+         * @param {String} key Name of the index that is changing
+         */
+        toggleAgeHandler: function(key) {
+            AgeStore.toggleAgeSelected(key);
+        },
 
+        /**
+         * Returns markup for a single age range checkbox. Also adds change handler to
+         * update store of selected age ranges.
+         * @param  {String}       key     Name of age range
+         * @param  {Bool}         enabled Whether age range is currently enabled
+         * @return {ReactElement}         Markup for checkbox
+         */
+        getAgeToggleMarkup: function(key, enabled) {
             return (
-                <div className="header">
-                    <div className="controls">
-                        {ageControls}
-                    </div>
+                <div className="age-type" key={key}>
+                    <input id={key} ref={key} type="checkbox" checked={enabled} onChange={this.toggleAgeHandler.bind(this, key)} />
+                    <label htmlFor={key}>{this.props.ageData[key].label}</label>
                 </div>
             );
         },
 
+        /**
+         * Returns the markup for all age ranges select boxes
+         * @return {ReactElement} Checkbox area markup
+         */
         getAgeControlsMarkup: function() {
             var ageToggles = [];
 
-            _.each(this.props.ageData, function(age, key) {
-                ageToggles.push(this.getAgeToggleMarkup(age, key));
+            _.each(this.props.selectedAges, function(enabled, key) {
+                ageToggles.push(this.getAgeToggleMarkup(key, enabled));
             }, this);
 
             return (
@@ -36,25 +53,16 @@ define(function(require) {
             );
         },
 
-        getAgeToggleMarkup: function(age, key) {
+        render: function() {
             return (
-                <div className="age-type" key={key}>
-                    <input ref={key} type="checkbox" checked={this.props.selectedAges[key]} onChange={this.toggleAgeHandler.bind(this, key)} />
-                    <span>{age.label}</span>
+                <div className="header">
+                    <div className="controls">
+                        {this.getAgeControlsMarkup()}
+                    </div>
                 </div>
             );
-        },
-
-        toggleAgeHandler: function(key) {
-            /* TODO:
-             * Ideally this would trigger an action to place this state in a Flux store.
-             * A change event would then be received by the Page component to propagate the new state to child
-             * components. To limit scope of this application we've decided to handle this through a simple callback
-             * to set the state on the parent component.
-             */
-            var selectedAges = _.clone(this.props.selectedAges);
-            selectedAges[key] = this.refs[key].getDOMNode().checked;
-            this.props.toggleAgeCallback(selectedAges);
         }
     });
+
+    return Controls;
 });

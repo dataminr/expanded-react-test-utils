@@ -32,12 +32,7 @@ module.exports.tasks = {
                 },
                 name: "ExpandedTestUtils",
                 out: "dist/ExpandedTestUtils.min.js",
-                optimize: 'uglify2',
-                uglify2: {
-                    output: {
-                        beautify: true
-                    }
-                },
+                optimize: 'none'
             }
         }
     },

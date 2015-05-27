@@ -4,28 +4,27 @@ define(function(require) {
     require('highmaps');
     require('highmaps-theme');
     require('montana-map');
-    var mapData = require('data/mapData');
+    var AgeStore = require('stores/AgeStore');
     var React = require('react');
+    var _ = require('lodash');
 
-    return React.createClass({
+    var StateMap = React.createClass({
         propTypes: {
             ageData: React.PropTypes.object.isRequired,
             selectedAges: React.PropTypes.object.isRequired
         },
 
+        /**
+         * Render a new Highcharts map with the data provided via props
+         */
         componentDidMount: function() {
-            var mapData = this.calculateData();
-
-            this.chart = new Highcharts.Map({
+            this.chart = new window.Highcharts.Map({
                 chart: {
                     renderTo: 'container',
                     backgroundColor: '#2C2C2D'
                 },
                 title: {
                     text: 'Montana'
-                },
-                subtitle: {
-                    text: '2010 - Population Under Age 35 by County'
                 },
                 mapNavigation: {
                     enabled: false
@@ -34,13 +33,13 @@ define(function(require) {
                     min: 0,
                     stops: [
                         [0, '#EFEFFF'],
-                        [0.5, Highcharts.getOptions().colors[0]],
-                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).brighten(-0.5).get()]
+                        [0.5, window.Highcharts.getOptions().colors[0]],
+                        [1, window.Highcharts.Color(window.Highcharts.getOptions().colors[0]).brighten(-0.5).get()]
                     ]
                 },
                 series: [{
-                    data: mapData,
-                    mapData: Highcharts.maps['countries/us/us-mt-all'],
+                    data: this.calculateData(),
+                    mapData: window.Highcharts.maps['countries/us/us-mt-all'],
                     joinBy: 'hc-key',
                     name: 'Ages',
                     dataLabels: {
@@ -51,15 +50,23 @@ define(function(require) {
             });
         },
 
+        /**
+         * Update the data in the Map given our new props
+         */
         componentDidUpdate: function() {
             this.chart.series[0].setData(this.calculateData());
         },
 
+        /**
+         * Figure out the values for each county given the selected age filters
+         * @return {Array} Data values for each county
+         */
         calculateData: function() {
-            var keys = [];
+            var mapData = AgeStore.getMapData(),
+                keys = [];
 
-            _.each(_.keys(this.props.selectedAges), function(age) {
-                if (this.props.selectedAges[age]) {
+            _.each(this.props.selectedAges, function(enabled, age) {
+                if (enabled) {
                     keys.push(age);
                 }
             }, this);
@@ -83,4 +90,6 @@ define(function(require) {
             );
         }
     });
+
+    return StateMap;
 });

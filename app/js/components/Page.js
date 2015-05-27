@@ -2,52 +2,48 @@ define(function(require) {
     'use strict';
 
     var Controls = require('components/Controls');
-    var ageData = require('data/ageData');
+    var AgeStore = require('stores/AgeStore');
     var List = require('components/List');
-    var Map = require('components/Map');
+    var StateMap = require('components/StateMap');
     var React = require('react');
+    var _ = require('lodash');
 
     return React.createClass({
         getInitialState: function() {
+            this.ageData = AgeStore.getAgeData();
             return {
-                selectedAges: {
-                    fifteenToNineteen: true,
-                    fiveToNine: true,
-                    tenToFourteen: true,
-                    thirtyToThirtyFour: true,
-                    twentyFiveToTwentyNine: true,
-                    twentyToTwentyFour: true,
-                    underFive: true
-                }
-            }
+                selectedAges: AgeStore.getSelectedAges()
+            };
+        },
+
+        /**
+         * Subscribe to AgeStore change event to update the list of selected ages in state
+         */
+        componentDidMount: function(){
+            AgeStore.subscribeToChange(_.bind(this.updateSelectedAges, this));
+        },
+
+        /**
+         * Handler for store change event. Updates state with the current list of selected ages which
+         * will then be passed down to child components
+         */
+        updateSelectedAges: function(){
+            this.setState({
+                selectedAges: AgeStore.getSelectedAges()
+            });
         },
 
         render: function() {
             return (
                 <div className="page">
-                    {this.getControlsMarkup()}
-                    {this.getListMarkup()}
-                    {this.getMapMarkup()}
+                    <div className="header-title">
+                        <h1>County Population by Age Range</h1>
+                    </div>
+                    <Controls ageData={this.ageData} selectedAges={this.state.selectedAges} />
+                    <List ageData={this.ageData} selectedAges={this.state.selectedAges} />
+                    <StateMap ageData={this.ageData} selectedAges={this.state.selectedAges} />
                 </div>
             );
-        },
-
-        getControlsMarkup: function() {
-            return <Controls ageData={ageData} selectedAges={this.state.selectedAges} toggleAgeCallback={this.updateSelectedAges} />;
-        },
-
-        getListMarkup: function() {
-            return <List ageData={ageData} selectedAges={this.state.selectedAges} />;
-        },
-
-        getMapMarkup: function() {
-            return <Map ageData={ageData} selectedAges={this.state.selectedAges} />;
-        },
-
-        updateSelectedAges: function(selectedAges) {
-            this.setState({
-                selectedAges: selectedAges
-            });
         }
     });
 });

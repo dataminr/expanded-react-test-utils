@@ -127,6 +127,13 @@ it('contains proper icon classes', function(){
 
 ***
 
+### findComponentCountWithTag
+```javascript
+bool findComponentCountWithTag(ReactComponent tree, string tagName, int count=1)
+```
+
+Used to ensure that the correct number of elements with the provided tag name are present in the provided tree. Provides a quick way to ensure that the right number of elements with a tag are present. The count defaults to 1 if not provided.
+
 ### findComponentCountWithSelector
 ```javascript
 bool findComponentCountWithSelector(ReactComponent tree, string selector, int count=1)
@@ -144,7 +151,7 @@ it('contains proper icon classes', function(){
 
 ## CSS Selector Syntax Support
 
-For methods in which a CSS selector is provided, the selector is expected to be fairly basic and just use DOM elements and class names, such as `span.userLabel`, `.itemlist .itemContent`, or `.actionList tr.odd`. Support for more fancy CSS3 selectors (e.g. pseduo selectors) is not yet present.
+For methods in which a CSS selector is provided, the selector is expected to be fairly basic and just use DOM elements, IDs, and class names, such as `span.userLabel`, `#listContainer`, `.itemlist .itemContent`, or `.actionList tr.odd`. Support for more fancy CSS3 selectors (e.g. pseduo selectors) is not yet present.
 
 ## Additional Examples
 

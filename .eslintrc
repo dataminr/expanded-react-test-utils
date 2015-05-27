@@ -12,6 +12,7 @@
         "eol-last": 0,
         "quotes": 0,
         "yoda": 0,
+        "new-cap": false,
         "no-mixed-requires": 0,
         "key-spacing": 0,
         "no-use-before-define": [2, "nofunc"],
