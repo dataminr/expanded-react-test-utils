@@ -29,7 +29,7 @@ module.exports = function(grunt) {
         'compass',
         'requirejs',
         'shell:jsxWatcher',
-        'watch',
+        'watch'
     ]);
 
     /**

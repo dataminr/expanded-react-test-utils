@@ -11,6 +11,7 @@ module.exports = function(grunt, options) {
                 '!app/compiled/main.js', '!app/compiled/**/tests/*.js'],
             options: {
                 specs: ['app/compiled/**/*.test.js'],
+                summary: true,
                 keepRunner: true,
                 helpers: [
                     'app/compiled/tests/bind-polyfill.js',
@@ -20,45 +21,28 @@ module.exports = function(grunt, options) {
                 ],
                 template: require('grunt-template-jasmine-istanbul'),
                 templateOptions: {
+                    replace: false,
                     coverage: 'bin/coverage/app/coverage.json',
                     report: 'bin/coverage/app',
+                    thresholds: {
+                        lines: 90,
+                        statements: 90,
+                        branches: 50,
+                        functions: 75
+                    },
                     template: require('grunt-template-jasmine-requirejs'),
                     templateOptions: {
                         requireConfigFile: 'app/require.config.js',
                         requireConfig: {
-                            baseUrl: 'app/compiled/',
+                            baseUrl: '.grunt/grunt-contrib-jasmine/app/compiled',
                             paths: {
-                                jquery: '../../../bower_components/jquery/dist/jquery',
-                                lodash: '../../../bower_components/lodash/lodash.min',
-                                react: '../../../bower_components/react/react-with-addons',
-                                highmaps: '../../../bower_components/highmaps/highmaps',
-                                'highmaps-theme': '../../../bower_components/highmaps/themes/dark-unica',
-                                'react-router': '../../../bower_components/react-router/build/umd/ReactRouter.min',
-                                ExpandedTestUtils: '../../../dist/ExpandedTestUtils.min',
-                            },
-                            callback: function () {
-                                define('instrumented', ['module'], function (module) {
-                                    return module.config().src;
-                                });
-                                require(['instrumented'], function () {
-                                    var oldLoad = requirejs.load;
-                                    requirejs.load = function (context, moduleName, url) {
-                                        // normalize paths
-                                        // changes app/compiled/../../../bower_components/* to bower_components/*
-                                        if (url.indexOf('app/compiled/../../../') === 0) {
-                                            url = url.substring(22);
-                                        }
-                                        // changes app/compiled/../../.grunt/grunt-contrib-jasmine/app/compiled/* to grunt/grunt-contrib-jasmine/app/compiled/*
-                                        else if (url.indexOf('app/compiled/../../.') === 0) {
-                                            url = url.substring(19);
-                                        }
-                                        // changes app/compiled/* to .grunt/grunt-contrib-jasmine/app/compiled/* without altering test files
-                                        else if (url.indexOf('app/compiled/') === 0 && url.indexOf('test') === -1) {
-                                            url = '.grunt/grunt-contrib-jasmine/' + url;
-                                        }
-                                        return oldLoad.apply(this, [context, moduleName, url]);
-                                    };
-                                });
+                                jquery: '../../../../bower_components/jquery/dist/jquery',
+                                lodash: '../../../../bower_components/lodash/lodash.min',
+                                react: '../../../../bower_components/react/react-with-addons',
+                                highmaps: '../../../../bower_components/highmaps/highmaps',
+                                'highmaps-theme': '../../../../bower_components/highmaps/themes/dark-unica',
+                                'react-router': '../../../../bower_components/react-router/build/umd/ReactRouter.min',
+                                ExpandedTestUtils: '../../../../dist/ExpandedTestUtils.min'
                             }
                         }
                     }
