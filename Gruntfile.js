@@ -47,7 +47,7 @@ module.exports = function(grunt) {
         'shell:cleanCompiledDirectory',
         'shell:jsxCompile',
         'eslint',
-        'jasmine'
+        'jasmine:cov'
     ]);
 
     /**
@@ -55,7 +55,7 @@ module.exports = function(grunt) {
      * help debug tests by being able to open dev tools and add debugger statements.
      */
     grunt.registerTask('jasmineDebug', [
-        'jasmine',
+        'jasmine:debug',
         'open:test',
         'connect'
     ]);
