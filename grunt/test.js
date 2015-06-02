@@ -1,5 +1,20 @@
 var port = '9001';
 var connect = require('../node_modules/grunt-contrib-connect/tasks/connect');
+var jasmineConfig = {
+    src: ['app/compiled/**/*.js', '!app/compiled/lib/*',
+          '!app/compiled/main.js', '!app/compiled/**/tests/*.js'],
+    specs: ['app/compiled/**/*.test.js'],
+    helpers: [
+        'app/compiled/tests/bind-polyfill.js',
+        // Expanded Jasmine assertions - https://github.com/JamieMason/Jasmine-Matchers
+        'bower_components/jasmine-expect/dist/jasmine-matchers.js'
+    ],
+    requireConfigFile: 'app/require.config.js',
+    compiledDir: 'app/compiled',
+    paths: {
+        ExpandedTestUtils: '../../dist/ExpandedTestUtils.min'
+    }
+};
 
 module.exports = function(grunt, options) {
     return { tasks: {
@@ -7,58 +22,61 @@ module.exports = function(grunt, options) {
          * Jasmine client side JS test tasks.
          */
         jasmine: {
-            src: ['app/compiled/**/*.js', '!app/compiled/lib/*',
-                '!app/compiled/main.js', '!app/compiled/**/tests/*.js'],
-            options: {
-                specs: ['app/compiled/**/*.test.js'],
-                keepRunner: true,
-                helpers: [
-                    'app/compiled/tests/bind-polyfill.js',
-                    //'app/compiled/tests/mock-ajax.js',
-                    //Expanded Jasmine assertions - https://github.com/JamieMason/Jasmine-Matchers
-                    'bower_components/jasmine-expect/dist/jasmine-matchers.js'
-                ],
-                template: require('grunt-template-jasmine-istanbul'),
-                templateOptions: {
-                    coverage: 'bin/coverage/app/coverage.json',
-                    report: 'bin/coverage/app',
+            debug: {
+                src: jasmineConfig.src,
+                options: {
+                    specs: jasmineConfig.specs,
+                    keepRunner: true,
+                    helpers: jasmineConfig.helpers,
                     template: require('grunt-template-jasmine-requirejs'),
                     templateOptions: {
-                        requireConfigFile: 'app/require.config.js',
+                        requireConfigFile: jasmineConfig.requireConfigFile,
                         requireConfig: {
-                            baseUrl: 'app/compiled/',
-                            paths: {
-                                jquery: '../../../bower_components/jquery/dist/jquery',
-                                lodash: '../../../bower_components/lodash/lodash.min',
-                                react: '../../../bower_components/react/react-with-addons',
-                                highmaps: '../../../bower_components/highmaps/highmaps',
-                                'highmaps-theme': '../../../bower_components/highmaps/themes/dark-unica',
-                                'react-router': '../../../bower_components/react-router/build/umd/ReactRouter.min',
-                                ExpandedTestUtils: '../../../dist/ExpandedTestUtils.min',
-                            },
-                            callback: function () {
-                                define('instrumented', ['module'], function (module) {
-                                    return module.config().src;
-                                });
-                                require(['instrumented'], function () {
-                                    var oldLoad = requirejs.load;
-                                    requirejs.load = function (context, moduleName, url) {
-                                        // normalize paths
-                                        // changes app/compiled/../../../bower_components/* to bower_components/*
-                                        if (url.indexOf('app/compiled/../../../') === 0) {
-                                            url = url.substring(22);
-                                        }
-                                        // changes app/compiled/../../.grunt/grunt-contrib-jasmine/app/compiled/* to grunt/grunt-contrib-jasmine/app/compiled/*
-                                        else if (url.indexOf('app/compiled/../../.') === 0) {
-                                            url = url.substring(19);
-                                        }
-                                        // changes app/compiled/* to .grunt/grunt-contrib-jasmine/app/compiled/* without altering test files
-                                        else if (url.indexOf('app/compiled/') === 0 && url.indexOf('test') === -1) {
-                                            url = '.grunt/grunt-contrib-jasmine/' + url;
-                                        }
-                                        return oldLoad.apply(this, [context, moduleName, url]);
-                                    };
-                                });
+                            baseUrl: jasmineConfig.compiledDir,
+                            paths: jasmineConfig.paths
+                        }
+                    }
+                }
+            },
+
+            cov: {
+                src: jasmineConfig.src,
+                options: {
+                    specs: jasmineConfig.specs,
+                    summary: true,
+                    helpers: jasmineConfig.helpers,
+                    template: require('grunt-template-jasmine-istanbul'),
+                    templateOptions: {
+                        replace: false,
+                        coverage: 'bin/coverage/app/coverage.json',
+                        report: 'bin/coverage/app',
+                        thresholds: {
+                            lines: 90,
+                            statements: 90,
+                            branches: 50,
+                            functions: 75
+                        },
+                        template: require('grunt-template-jasmine-requirejs'),
+                        templateOptions: {
+                            requireConfigFile: jasmineConfig.requireConfigFile,
+                            requireConfig: {
+                                baseUrl: '.grunt/grunt-contrib-jasmine/' + jasmineConfig.compiledDir,
+                                paths: jasmineConfig.paths,
+                                callback: function () {
+                                    // path modification for bower dependencies
+                                    define('instrumented', ['module'], function (module) {
+                                        return module.config().src;
+                                    });
+                                    require(['instrumented'], function () {
+                                        var oldLoad = requirejs.load;
+                                        requirejs.load = function (context, moduleName, url) {
+                                            if (url.indexOf('bower_components') !== -1 || url.indexOf('dist') !== -1) {
+                                                url = url.substring(48);
+                                            }
+                                            return oldLoad.apply(this, [context, moduleName, url]);
+                                        };
+                                    });
+                                }
                             }
                         }
                     }

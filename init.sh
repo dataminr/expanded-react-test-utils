@@ -13,8 +13,8 @@ rm -rf app/compiled
 rm -rf app/dist
 npm cache clean
 bower cache clean
-npm install --loglevel error
-bower install --quiet
+npm install
+bower install
 
 if [ $? -ne 0 ]; then
   echo "$COLOR_RED"

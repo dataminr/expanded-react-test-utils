@@ -54,32 +54,18 @@ module.exports.tasks = {
 
     shell: {
         cleanCompiledDirectory: {
-            command: 'rm -rf app/compiled',
-            options: {
-                async: true
-            }
+            command: 'rm -rf app/compiled'
         },
         init: {
-            command: './init.sh',
-            options: {
-                async: false
-            }
+            command: './init.sh'
         },
         jsxCompile: {
-            command: 'jsx app/js/ app/compiled/',
-            options: {
-                async: false
-            }
+            command: 'jsx app/js/ app/compiled/'
         },
         jsxWatcher: {
             command: 'jsx --watch app/js/ app/compiled/ &',
             options: {
                 async: true
-            }
-        },
-        options: {
-            execOptions: {
-                detached: true
             }
         }
     }
