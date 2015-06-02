@@ -41,27 +41,67 @@ define(function(require) {
             });
         });
 
-        describe('getAgeToggleMarkup function', function(){
+        describe('getAgeToggleMarkup function, child access', function(){
             it('returns markup for when item is checked', function(){
-                var markup = controlsInstance.getAgeToggleMarkup('tweens', true);
+                var control = controlsInstance.getAgeToggleMarkup('tweens', true);
+
+                var input = control.props.children[0],
+                    label = control.props.children[1];
 
                 //Verify that the properties of the input element are what we expect
-                expect(markup.props.children[0].props.checked).toBeTrue();
-                expect(markup.props.children[0].props.id).toEqual('tweens');
+                expect(input.props.checked).toBeTrue();
+                expect(input.props.id).toEqual('tweens');
 
                 //Verify that the label value is what we expect
-                expect(markup.props.children[1].props.children).toEqual('Tweens');
+                expect(label.props.children).toEqual('Tweens');
             });
 
             it('returns markup for when item is unchecked', function(){
-                var markup = controlsInstance.getAgeToggleMarkup('teenagers', false);
+                var control = controlsInstance.getAgeToggleMarkup('teenagers', false);
+
+                var input = control.props.children[0],
+                    label = control.props.children[1];
 
                 //Verify that the properties of the input element are what we expect
-                expect(markup.props.children[0].props.checked).toBeFalse();
-                expect(markup.props.children[0].props.id).toEqual('teenagers');
+                expect(input.props.checked).toBeFalse();
+                expect(input.props.id).toEqual('teenagers');
 
                 //Verify that the label value is what we expect
-                expect(markup.props.children[1].props.children).toEqual('Teenagers');
+                expect(label.props.children).toEqual('Teenagers');
+            });
+        });
+
+        describe('getAgeToggleMarkup function, render access', function(){
+            it('returns markup for when item is checked', function(){
+                var control = controlsInstance.getAgeToggleMarkup('tweens', true);
+
+                var markup = ReactTestUtils.renderIntoDocument(control);
+
+                var input = ReactTestUtils.findRenderedDOMComponentWithTag(markup, 'input'),
+                    label = ReactTestUtils.findRenderedDOMComponentWithTag(markup, 'label');
+
+                //Verify that the properties of the input element are what we expect
+                expect(input.props.checked).toBeTrue();
+                expect(input.props.id).toEqual('tweens');
+
+                //Verify that the label value is what we expect
+                expect(label.props.children).toEqual('Tweens');
+            });
+
+            it('returns markup for when item is unchecked', function(){
+                var control = controlsInstance.getAgeToggleMarkup('teenagers', false);
+
+                var markup = ReactTestUtils.renderIntoDocument(control);
+
+                var input = ReactTestUtils.findRenderedDOMComponentWithTag(markup, 'input'),
+                    label = ReactTestUtils.findRenderedDOMComponentWithTag(markup, 'label');
+
+                //Verify that the properties of the input element are what we expect
+                expect(input.props.checked).toBeFalse();
+                expect(input.props.id).toEqual('teenagers');
+
+                //Verify that the label value is what we expect
+                expect(label.props.children).toEqual('Teenagers');
             });
         });
 
@@ -70,8 +110,7 @@ define(function(require) {
                 var checkboxes = controlsInstance.getAgeControlsMarkup();
 
                 //Verify that the result contains 3 checkboxes (1 for each key in the mock data above)
-                expect(ReactTestUtils.isElement(checkboxes)).toBeTrue();
-                expect(checkboxes.props.children).toBeArrayOfSize(3);
+                expect(checkboxes).toBeArrayOfSize(3);
             });
         });
 

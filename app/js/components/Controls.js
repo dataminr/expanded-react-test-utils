@@ -29,7 +29,7 @@ define(function(require) {
         getAgeToggleMarkup: function(key, enabled) {
             return (
                 <div className="age-type" key={key}>
-                    <input id={key} ref={key} type="checkbox" checked={enabled} onChange={this.toggleAgeHandler.bind(this, key)} />
+                    <input id={key} type="checkbox" checked={enabled} onChange={this.toggleAgeHandler.bind(this, key)} />
                     <label htmlFor={key}>{this.props.ageData[key].label}</label>
                 </div>
             );
@@ -46,11 +46,7 @@ define(function(require) {
                 ageToggles.push(this.getAgeToggleMarkup(key, enabled));
             }, this);
 
-            return (
-                <div className="age-controls">
-                    {ageToggles}
-                </div>
-            );
+            return ageToggles;
         },
 
         render: function() {

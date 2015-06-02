@@ -15,8 +15,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
     <link rel="stylesheet" href="../bower_components/reveal.js/css/reveal.css">
-    <link rel="stylesheet" href="../bower_components/reveal.js/css/theme/black.css" id="theme">
-
+    <link rel="stylesheet" href="../bower_components/reveal.js/css/theme/league.css" id="theme">
+    <style type="text/css">
+        .reveal h1, .reveal h2, .reveal h3{
+            text-transform: none;
+        }
+        .reveal pre{
+            width: 100%;
+        }
+        .monospace{
+            font-family: monospace !important;
+        }
+        code{
+            font-size: 135% !important;
+        }
+    </style>
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="../bower_components/reveal.js/lib/css/zenburn.css">
 
@@ -59,7 +72,7 @@
 </section>
 
 <section>
-    <h2>Graphs Without Vertical Axes!</h2>
+    <h2>Graphs Without a Vertical Axis!</h2>
     <img src="img/popularity.png"/>
 </section>
 
@@ -69,6 +82,10 @@
         <source src="http://i.imgur.com/w9Vgk3w.webm" type="video/webm">
         <source src="http://i.imgur.com/w9Vgk3w.mp4" type="video/mp4">
     </video>
+</section>
+
+<section>
+    <h2>Objects > DOM</h2>
 </section>
 
 <section>
@@ -99,16 +116,228 @@
         <li>scryRenderedDOMComponentsWithSelector</li>
         <li>findRenderedDOMComponentWithSelector</li>
         <li>findComponentCountWithClassname</li>
+        <li>findComponentCountWithTag</li>
         <li>findComponentCountWithSelector</li>
     </ul>
 </section>
 
 <section>
     <h2>Test Application</h2>
-    <img src=""/>
+    <img style="height: 525px" src="img/sampleAppScreenshot.png"/>
 </section>
 
+<section>
+    <h2>Test Application</h2>
+    <span>Page, Controls, List, StateMap</span>
+    <img style="height: 525px" src="img/sampleAppScreenshot_outline.png"/>
+</section>
 
+<section>
+    <h2>Controls Component</h2>
+    <img src="img/controlsComponent.png"/>
+    <ul>
+        <li>Checkbox click handler</li>
+        <li>Checkbox markup builder</li>
+        <li>Render function</li>
+    </ul>
+</section>
+
+<section>
+    <pre><code data-trim class="js">
+getAgeToggleMarkup: function(key, enabled) {
+  return (
+    &lt;div className="age-type" key={key}&gt;
+      &lt;input
+          id={key}
+          type="checkbox"
+          checked={enabled}
+          onChange={this.toggleAgeHandler.bind(this, key)}
+      /&gt;
+      &lt;label htmlFor={key}>
+          {this.props.ageData[key].label}
+      &lt;/label&gt;
+    &lt;/div&gt;
+  );
+},
+    </code></pre>
+</section>
+
+<section>
+    <h2>renderIntoDocument()</h2>
+    <ul>
+        <li>Detached DOM node</li>
+        <li>Returns React class instance</li>
+    </ul>
+    <pre><code data-trim class="js">
+var controlsInstance;
+
+beforeEach(function(){
+
+  controlsInstance = ReactTestUtils.renderIntoDocument(
+    &lt;Controls
+        ageData={ageData}
+        selectedAges={selectedAges}
+    /&gt;
+  );
+
+});
+...
+    </code></pre>
+</section>
+
+<section>
+    <h2>Direct Object Testing</h2>
+    <pre><code data-trim class="js">
+//Call function to test
+var control =
+    controlsInstance.getAgeToggleMarkup('category', true);
+    </code></pre>
+
+    <pre class="fragment"><code data-trim class="js">
+//Grab elements at proper child index
+var checkbox = control.props.children[0],
+    label = control.props.children[1];
+    </code></pre>
+
+    <pre class="fragment"><code data-trim class="js">
+//Assertions
+expect(checkbox.props.checked).toBeTrue();
+expect(checkbox.props.id).toEqual('category');
+expect(label.props.children).toEqual('Category');
+    </code></pre>
+</section>
+
+<section>
+    <h2>Subrender and Tag Query</h2>
+    <ul>
+        <li>[find/scry]RenderedDOMComponentWithTag</li>
+        <li>[find/scry]RenderedDOMComponentWithClass</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Subrender and Tag Query</h2>
+    <pre><code data-trim class="js">
+//Call function to test
+var control =
+    controlsInstance.getAgeToggleMarkup('category', true);
+    </code></pre>
+
+    <pre class="fragment"><code data-trim class="js">
+//Render view partial
+var markup = RTU.renderIntoDocument(control);
+    </code></pre>
+
+    <pre class="fragment"><code data-trim class="js">
+//Find elements by tag
+var checkbox =
+    RTU.findRenderedDOMComponentWithTag(markup, 'input'),
+
+var label =
+    RTU.findRenderedDOMComponentWithTag(markup, 'label');
+    </code></pre>
+
+    <pre class="fragment"><code data-trim class="js">
+//Assertions
+expect(checkbox.props.checked).toBeTrue();
+expect(checkbox.props.id).toEqual('category');
+expect(label.props.children).toEqual('Category');
+    </code></pre>
+</section>
+
+<section>
+    <h2>Simulate.{action}()</h2>
+    <ul>
+        <li>Invoke action handler</li>
+        <li>Must pass in DOM node</li>
+    </ul>
+</section>
+
+<section>
+    <div>onClick => Simulate.click()</div>
+    <div>onChange => Simulate.change()</div>
+    <div>onKeyDown => Simulate.keyDown</div>
+</section>
+
+<section>
+    <pre><code data-trim class="js">
+//Spy on function we expected to be called
+spyOn(AgeStore, 'toggleAgeSelected');
+    </code></pre>
+
+    <pre class="fragment" style="font-size: 47%"><code data-trim class="js">
+//Find a specific checkbox to toggle
+var checkbox = ExpandedTestUtils.
+  findRenderedDOMComponentWithSelector(controlsInstance,'#category');
+    </code></pre>
+
+    <pre class="fragment"><code data-trim class="js">
+//Simulate on the actual DOM node
+ReactTestUtils.Simulate.change(checkbox.getDOMNode());
+    </code></pre>
+
+    <pre class="fragment"><code data-trim class="js">
+//Assertions
+expect(AgeStore.toggleAgeSelected).
+    toHaveBeenCalledWith('category');
+    </code></pre>
+</section>
+
+<section>
+    <h2>Expanded React Test Utils</h2>
+</section>
+
+<section>
+    <h2>mockReactComponent</h2>
+    <ul>
+        <li>Replace with plain &lt;div&gt;</li>
+        <li>Add/overwrite props</li>
+        <li>Requires Jasmine</li>
+    </ul>
+</section>
+
+<section>
+    <pre><code data-trim class="js">
+beforeAll(function(){
+  ExpandedTestUtils.mockReactComponent({
+    Controls: {className: 'mock-controls'},
+    List: {className: 'mock-list'},
+    StateMap: {className: 'mock-state-map'}
+  });
+});
+    </code></pre>
+
+    <pre class="fragment"><code data-trim class="js">
+var controlsInstance = ReactTestUtils.
+  findRenderedDOMComponentWithClass('mock-controls');
+
+expect(controlsInstance.props.something).toEqual('value');
+    </code></pre>
+</section>
+
+<section>
+    <h3>[find/scry]RenderedDOMComponentsWithSelector</h3>
+    <ul>
+        <li>Simple selector using classes, tags, IDs</li>
+        <li>Pseudo selectors not yet supported
+    </ul>
+</section>
+
+<section>
+    <pre><code data-trim class="js">
+findRenderedDOMComponentsWithSelector(
+    instance,
+    '.user-list li.last'
+);
+    </code></pre>
+
+        <pre><code data-trim class="js">
+findRenderedDOMComponentsWithSelector(
+    instance,
+    '#county-list a'
+);
+    </code></pre>
+</section>
 
 <!-- DIVIDER LINE -->
 
@@ -125,11 +354,8 @@
     // Full list of configuration options available at:
     // https://github.com/hakimel/reveal.js#configuration
     Reveal.initialize({
-        controls: true,
-        progress: true,
         history: true,
-        center: true,
-
+        slideNumber: true,
         transition: 'slide', // none/fade/slide/convex/concave/zoom
 
         // Optional reveal.js plugins
