@@ -345,6 +345,325 @@ findRenderedDOMComponentsWithSelector(
     <h2>Unit Tests!! Now what?</h2>
 </section>
 
+<section>
+    <h2>Automation</h2>
+    <img src="img/grunt.jpg" />
+</section>
+
+<section>
+    <h2>Automation Dependencies</h2>
+    <ul>
+        <li><a href="http://gruntjs.com/">grunt</a></li>
+        <li><a href="https://github.com/gruntjs/grunt-cli">grunt-cli</a></li>
+        <li><a href="https://github.com/gruntjs/grunt-contrib-connect">grunt-contrib-connect</a></li>
+        <li><a href="https://github.com/jsoverson/grunt-open">grunt-open</a></li>
+        <li><a href="https://github.com/cri5ti/grunt-shell-spawn">grunt-shell-spawn</a></li>
+        <li><a href="https://github.com/creynders/load-grunt-configs">load-grunt-configs</a></li>
+    </ul>
+</section>
+
+<section>
+    <h2>Testing Dependencies</h2>
+    <ul>
+        <li><a href="https://github.com/gruntjs/grunt-contrib-jasmine">grunt-contrib-jasmine</a></li>
+        <li><a href="https://github.com/maenu/grunt-template-jasmine-istanbul">grunt-template-jasmine-istanbul</a></li>
+        <li><a href="https://github.com/cloudchen/grunt-template-jasmine-requirejs">grunt-template-jasmine-requirejs</a></li>
+        <li><a href="https://github.com/gruntjs/grunt-contrib-requirejs">grunt-contrib-requirejs</a></li>
+        <li><a href="https://www.npmjs.com/package/requirejs">requirejs</a></li>
+        <li><a href="https://github.com/chrisbuttery/duo-react/blob/master/lib/polyfill/bind-polyfill.js">bind-polyfill.js</a></li>
+    </ul>
+</section>
+
+<section>
+    <h2>Additional Dependencies</h2>
+    <ul>
+        <li><a href="https://github.com/gruntjs/grunt-contrib-compass">grunt-contrib-compass</a></li>
+        <li><a href="http://eslint.org/">eslint</a></li>
+        <li><a href="https://www.npmjs.com/package/grunt-eslint">grunt-eslint</a></li>
+        <li><a href="https://www.npmjs.com/package/eslint-plugin-react">eslint-plugin-react</a></li>
+        <li><a href="https://github.com/gruntjs/grunt-contrib-watch">grunt-contrib-watch</a></li>
+    </ul>
+</section>
+
+<section>
+    <h2>Create Grunt Tasks</h2>
+    <img src="img/allthethings.jpg" />
+</section>
+
+<section>
+    <h3>Run Unit Tests and Check for Lint</h3>
+    <pre><code  data-trim class="js">
+grunt.registerTask('test',[
+  'shell:cleanCompiledDirectory',
+  'shell:jsxCompile',
+  'eslint',
+  'jasmine:cov'
+]);
+    </code></pre>
+</section>
+
+<section>
+    <h3>Run Unit Tests and Open in Browser to Debug</h3>
+    <pre><code  data-trim class="js">
+grunt.registerTask('jasmineDebug', [
+  'jasmine:debug',
+  'open:test',
+  'connect'
+]);
+    </code></pre>
+</section>
+
+<section>
+    <h3>Run Test Task and Open Test Coverage Results</h3>
+    <pre><code  data-trim class="js">
+grunt.registerTask('test:cov',[
+  'test',
+  'open:cov',
+  'connect'
+]);
+    </code></pre>
+</section>
+
+<section>
+    <h2>Task Configuration</h2>
+    <pre style="font-size: .4em"><code data-trim class="js">
+var port = '9001';
+var connect = require('../node_modules/grunt-contrib-connect/tasks/connect');
+var jasmineConfig = {
+  src: ['app/compiled/**/*.js', '!app/compiled/lib/*',
+        '!app/compiled/main.js', '!app/compiled/**/tests/*.js'],
+  specs: ['app/compiled/**/*.test.js'],
+  helpers: [
+    'app/compiled/tests/bind-polyfill.js',
+    'bower_components/jasmine-expect/dist/jasmine-matchers.js'
+  ],
+  requireConfigFile: 'app/require.config.js',
+  compiledDir: 'app/compiled',
+  paths: {
+    ExpandedTestUtils: '../../dist/ExpandedTestUtils.min'
+  }
+};
+    </code></pre>
+</section>
+
+<section>
+    <h2>Linting Task</h2>
+    <pre><code>
+eslint:{
+  target: [
+    'app/**/*.js',
+    '!app/compiled/**/*.js',
+    '!app/js/stores/data/*.js',
+    '!app/js/tests/*.js',
+    '!app/**/*.test.js'
+  ]
+},
+    </code></pre>
+</section>
+
+<section>
+    <h2>React Support in Eslint</h2>
+    <pre style="font-size: .4em"><code>
+"ecmaFeatures": {
+  "jsx": true
+},
+"rules": {
+  {standard eslint rules}
+
+  "react/jsx-boolean-value": 1,
+  "react/jsx-quotes": 1,
+  "react/jsx-no-undef": 1,
+  "react/jsx-uses-react": 1,
+  "react/jsx-uses-vars": 1,
+  "react/no-did-mount-set-state": 1,
+  "react/no-did-update-set-state": 1,
+  "react/no-multi-comp": 1,
+  "react/no-unknown-property": 1,
+  "react/react-in-jsx-scope": 1,
+  "react/self-closing-comp": 1
+},
+"plugins": [
+  "react"
+]
+    </code></pre>
+</section>
+
+<section>
+    <h2>Eslint Output</h2>
+    <pre><code data-trim class="js">
+React = require('react');
+var AgeStore = require('stores/AgeStore')
+var unusedVar = 'What am I doing here?';
+    </code></pre>
+    <img src="img/eslintOutput.png"/>
+</section>
+
+<section>
+    <h2>Debug Task</h2>
+    <pre><code data-trim class="js">
+debug: {
+  src: jasmineConfig.src,
+  options: {
+    specs: jasmineConfig.specs,
+    keepRunner: true,
+    helpers: jasmineConfig.helpers,
+    template: require('grunt-template-jasmine-requirejs'),
+    templateOptions: {
+      requireConfigFile: jasmineConfig.requireConfigFile,
+      requireConfig: {
+        baseUrl: jasmineConfig.compiledDir,
+        paths: jasmineConfig.paths
+      }
+    }
+  }
+},
+    </code></pre>
+</section>
+
+<section>
+    <h2>Jasmine Debug</h2>
+    <img src="img/jasmineDebug.png" />
+</section>
+
+<section>
+    <h2>Test with Coverage Task</h2>
+    <pre style="font-size: .35em"><code data-trim class="js">
+cov: {
+  src: jasmineConfig.src,
+  options: {
+    specs: jasmineConfig.specs,
+    summary: true,
+    helpers: jasmineConfig.helpers,
+    template: require('grunt-template-jasmine-istanbul'),
+    templateOptions: {
+      replace: false,
+      coverage: 'bin/coverage/app/coverage.json',
+      report: 'bin/coverage/app',
+      thresholds: {
+        lines: 90,
+        statements: 90,
+        branches: 50,
+        functions: 75
+      },
+      template: require('grunt-template-jasmine-requirejs'),
+      templateOptions: {
+        requireConfigFile: jasmineConfig.requireConfigFile,
+        requireConfig: {
+          baseUrl: '.grunt/grunt-contrib-jasmine/' + jasmineConfig.compiledDir,
+          paths: jasmineConfig.paths,
+          callback: function () {
+            // path modification for bower dependencies
+            define('instrumented', ['module'], function (module) {
+              return module.config().src;
+            });
+            require(['instrumented'], function () {
+              var oldLoad = requirejs.load;
+              requirejs.load = function (context, moduleName, url) {
+                if (url.indexOf('bower_components') !== -1 || url.indexOf('dist') !== -1) {
+                  url = url.substring(48);
+                }
+                return oldLoad.apply(this, [context, moduleName, url]);
+...
+    </code></pre>
+</section>
+
+<section>
+    <h2>Istanbul Project Coverage</h2>
+    <img src="img/istanbulProject.png" />
+</section>
+
+<section>
+    <h2>Istanbul File Coverage</h2>
+    <img src="img/istanbulFile.png" />
+</section>
+
+<section>
+    <h3>Start Server and Open URL for Tests or Coverage</h3>
+    <pre style="font-size: .4em"><code>
+connect: {
+  all: {
+    options: {
+      port: port,
+      hostname: "0.0.0.0",
+      keepalive: true
+    }
+  }
+},
+    </code></pre>
+
+    <pre class="fragment" style="font-size: .4em"><code>
+open: {
+  test: {
+    path: 'http://localhost:<%= connect.all.options.port%>/_SpecRunner.html'
+  },
+  cov: {
+    path: 'http://localhost:<%= connect.all.options.port%>/bin/'
+  }
+}
+    </code></pre>
+</section>
+
+<section>
+    <h2>Test and Deploy with Confidence</h2>
+    <img style="background-color: white" src="img/logotravis.png" /><br/>
+    <small><a href="https://travis-ci.org/">Travis CI</a></small>
+</section>
+
+<section>
+    <h2>Configuring .travis.yaml</h2>
+    <pre><code data-trim class="js">
+language: node_js
+node_js:
+- "0.12"
+before_install:
+- npm install -g grunt-cli
+- npm install -g bower
+- npm install -g react-tools
+install: npm install
+after_script:
+- bower install
+- grunt test
+    </code></pre>
+</section>
+
+<section>
+    <h2>Github with Travis CI</h2>
+    <img src="img/pending.png" />
+    <img src="img/passing.png" />
+</section>
+
+<section>
+    <h2>Build Passing Badge in README</h2>
+    <pre style="font-size: .4em"><code data-trim class="js">
+[![Build Status][travis-image]][travis-url]
+
+[travis-url]: https://travis-ci.org/dataminr/expanded-react-test-utils
+[travis-image]: https://travis-ci.org/dataminr/expanded-react-test-utils.svg?branch=master
+    </code></pre>
+    <img src="img/badge.png" />
+</section>
+
+<section>
+    <h2>Starting a New Project?</h2>
+    <img src="img/yeoman-logo.png" /><br/>
+    <a href="https://github.com/dataminr/generator-reactjs-flux">generator-reactjs-flux</a><br/><br/>
+    <small>by <a href="http://dataminr.com/">Dataminr</a></small>
+</section>
+
+<section>
+    <h2>Need More Examples of Testing React?</h2>
+    <img src="https://raw.githubusercontent.com/dataminr/react-components/master/src/js/examples/images/demo/table.gif" /><br />
+    <a href="https://github.com/dataminr/react-components">react-components</a><br/><br/>
+    <small>by <a href="http://dataminr.com/">Dataminr</a></small>
+</section>
+
+<section>
+    <h2>Want the new test utils for React?</h2>
+
+    <small><p>Clone the repo and open <a href="https://github.com/dataminr/expanded-react-test-utils/blob/master/slides/index.html">this</a> file up in your browser to view the presentation slides</p></small><br />
+    <a href="https://github.com/dataminr/expanded-react-test-utils">expanded-react-test-utils</a><br/><br/>
+    <small>by <a href="http://dataminr.com/">Dataminr</a></small>
+</section>
 
 </div> <!-- end slides -->
 </div> <!-- end reveal -->
