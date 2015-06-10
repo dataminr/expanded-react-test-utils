@@ -13,9 +13,10 @@ define(function(require) {
 
         /**
          * Updates the state of an age group within the store, givin it's key
-         * @param {String} key Name of the index that is changing
+         * @param {Object} event Click event
          */
-        toggleAgeHandler: function(key) {
+        toggleAgeHandler: function(event) {
+            var key = event.target.id;
             AgeStore.toggleAgeSelected(key);
         },
 
@@ -29,7 +30,7 @@ define(function(require) {
         getAgeToggleMarkup: function(key, enabled) {
             return (
                 <div className="age-type" key={key}>
-                    <input id={key} type="checkbox" checked={enabled} onChange={this.toggleAgeHandler.bind(this, key)} />
+                    <input id={key} type="checkbox" checked={enabled} onChange={this.toggleAgeHandler} />
                     <label htmlFor={key}>{this.props.ageData[key].label}</label>
                 </div>
             );

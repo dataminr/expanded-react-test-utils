@@ -35,7 +35,7 @@ define(function(require) {
             it('calls into store with correct key', function(){
                 spyOn(AgeStore, 'toggleAgeSelected');
 
-                controlsInstance.toggleAgeHandler('toddlers');
+                controlsInstance.toggleAgeHandler({target: {id: 'toddlers'}});
 
                 expect(AgeStore.toggleAgeSelected).toHaveBeenCalledWith('toddlers');
             });

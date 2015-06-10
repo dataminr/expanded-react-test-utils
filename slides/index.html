@@ -34,6 +34,10 @@
             position: absolute;
             box-shadow: 0 0 15px 7px rgba(0,0,0,0.75) !important;
         }
+        .reveal h1{
+          text-shadow: none;
+          font-size: 3em;
+        }
     </style>
     <!-- Code syntax highlighting -->
     <link rel="stylesheet" href="../bower_components/reveal.js/lib/css/zenburn.css">
@@ -58,12 +62,12 @@
 <div class="slides">
 
 <section>
-    <h2>Better Unit Testing in ReactJS</h2>
-    <h4>with <a href="https://github.com/dataminr/expanded-react-test-utils">expanded-react-test-utils</a></h4>
+    <h1>Better Unit Testing in ReactJS</h1>
+    <h3>with <a href="https://github.com/dataminr/expanded-react-test-utils">expanded-react-test-utils</a></h3>
     <p>
-        <small><a href="https://github.com/jasonjohnson115">Jason Johnson</a> / <a href="http://twitter.com/jasonjohnson115">@jasonjohnson115</a></small>
+        <a href="https://github.com/jasonjohnson115">Jason Johnson</a> / <a href="http://twitter.com/jasonjohnson115">@jasonjohnson115</a>
         <br/>
-        <small><a href="https://github.com/ernieturner">Ernie Turner</a> / <a href="http://twitter.com/erniewturner">@erniewturner</a></small>
+        <a href="https://github.com/ernieturner">Ernie Turner</a> / <a href="http://twitter.com/erniewturner">@erniewturner</a>
     </p>
 </section>
 
@@ -161,7 +165,7 @@ getAgeToggleMarkup: function(key, enabled) {
           id={key}
           type="checkbox"
           checked={enabled}
-          onChange={this.toggleAgeHandler.bind(this, key)}
+          onChange={this.toggleAgeHandler}
       /&gt;
       &lt;label htmlFor={key}>
           {this.props.ageData[key].label}
@@ -200,42 +204,43 @@ beforeEach(function(){
     <pre><code data-trim class="js">
 //Call function to test
 var control =
-    controlsInstance.getAgeToggleMarkup('category', true);
+    controlsInstance.getAgeToggleMarkup('underFive', true);
     </code></pre>
 
     <pre class="fragment"><code data-trim class="js">
 //Grab elements at proper child index
 var checkbox = control.props.children[0],
-    label = control.props.children[1];
+    label    = control.props.children[1];
     </code></pre>
 
     <pre class="fragment"><code data-trim class="js">
 //Assertions
 expect(checkbox.props.checked).toBeTrue();
-expect(checkbox.props.id).toEqual('category');
-expect(label.props.children).toEqual('Category');
+expect(checkbox.props.id).toEqual('underFive');
+expect(label.props.children).toEqual('Under 5');
     </code></pre>
 </section>
 
 <section>
-    <h2>Subrender and Tag Query</h2>
+    <h2>Partial Render and Tag Query</h2>
     <ul>
         <li>[find/scry]RenderedDOMComponentWithTag</li>
         <li>[find/scry]RenderedDOMComponentWithClass</li>
     </ul>
+    <img src="img/scryDef.png"/>
 </section>
 
 <section>
-    <h2>Subrender and Tag Query</h2>
+    <h2>Partial Render and Tag Query</h2>
     <pre><code data-trim class="js">
 //Call function to test
-var control =
-    controlsInstance.getAgeToggleMarkup('category', true);
+var controlMarkup =
+    controlsInstance.getAgeToggleMarkup('underFive', true);
     </code></pre>
 
     <pre class="fragment"><code data-trim class="js">
 //Render view partial
-var markup = RTU.renderIntoDocument(control);
+var markup = RTU.renderIntoDocument(controlMarkup);
     </code></pre>
 
     <pre class="fragment"><code data-trim class="js">
@@ -250,8 +255,8 @@ var label =
     <pre class="fragment"><code data-trim class="js">
 //Assertions
 expect(checkbox.props.checked).toBeTrue();
-expect(checkbox.props.id).toEqual('category');
-expect(label.props.children).toEqual('Category');
+expect(checkbox.props.id).toEqual('underFive');
+expect(label.props.children).toEqual('Under 5');
     </code></pre>
 </section>
 
@@ -277,8 +282,8 @@ spyOn(AgeStore, 'toggleAgeSelected');
 
     <pre class="fragment" style="font-size: 47%"><code data-trim class="js">
 //Find a specific checkbox to toggle
-var checkbox = ExpandedTestUtils.
-  findRenderedDOMComponentWithSelector(controlsInstance,'#category');
+var checkbox = ReactTestUtils.
+  scryRenderedDOMComponentWithTag(controlsInstance, 'input')[0];
     </code></pre>
 
     <pre class="fragment"><code data-trim class="js">
@@ -289,7 +294,7 @@ ReactTestUtils.Simulate.change(checkbox.getDOMNode());
     <pre class="fragment"><code data-trim class="js">
 //Assertions
 expect(AgeStore.toggleAgeSelected).
-    toHaveBeenCalledWith('category');
+    toHaveBeenCalledWith('underFive');
     </code></pre>
 </section>
 
@@ -310,9 +315,11 @@ expect(AgeStore.toggleAgeSelected).
     <pre><code data-trim class="js">
 beforeAll(function(){
   ExpandedTestUtils.mockReactComponent({
+
     Controls: {className: 'mock-controls'},
-    List: {className: 'mock-list'},
+    List:     {className: 'mock-list'},
     StateMap: {className: 'mock-state-map'}
+
   });
 });
     </code></pre>
@@ -321,7 +328,7 @@ beforeAll(function(){
 var controlsInstance = ReactTestUtils.
   findRenderedDOMComponentWithClass('mock-controls');
 
-expect(controlsInstance.props.something).toEqual('value');
+expect(controlsInstance.props.selectedAges).toEqual({...});
     </code></pre>
 </section>
 
@@ -329,7 +336,7 @@ expect(controlsInstance.props.something).toEqual('value');
     <h3>[find/scry]RenderedDOMComponentsWithSelector</h3>
     <ul>
         <li>Simple selector using classes, tags, IDs</li>
-        <li>Pseudo selectors not yet supported
+        <li>Pseudo selectors not yet supported</li>
     </ul>
 </section>
 
