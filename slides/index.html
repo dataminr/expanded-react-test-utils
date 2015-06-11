@@ -86,7 +86,7 @@
 </section>
 
 <section>
-    <h2>Graphs Without a Vertical Axis!</h2>
+    <h2>Graphs Without Labels!</h2>
     <img src="img/popularity.png"/>
 </section>
 
@@ -228,6 +228,7 @@ expect(label.props.children).toEqual('Under 5');
         <li>[find/scry]RenderedDOMComponentWithClass</li>
     </ul>
     <img src="img/scryDef.png"/>
+    <div>Requires React tree to have been rendered before use</div>
 </section>
 
 <section>
@@ -275,13 +276,32 @@ expect(label.props.children).toEqual('Under 5');
 </section>
 
 <section>
+  <h2>Checkbox Toggle Handler</h2>
+  <pre><code data-trim class="js">
+&lt;input
+  id={key}
+  type="checkbox"
+  checked={enabled}
+  onChange={this.toggleAgeHandler}
+/&gt;
+    </code></pre>
+    <br/>
+    <pre class="fragment"><code data-trim class="js">
+toggleAgeHandler: function(event) {
+  var key = event.target.id;
+  AgeStore.toggleAgeSelected(key);
+},
+    </code></pre>
+</section>
+
+<section>
     <pre><code data-trim class="js">
 //Spy on function we expected to be called
 spyOn(AgeStore, 'toggleAgeSelected');
     </code></pre>
 
     <pre class="fragment" style="font-size: 47%"><code data-trim class="js">
-//Find a specific checkbox to toggle
+//Find a checkbox to toggle
 var checkbox = ReactTestUtils.
   scryRenderedDOMComponentWithTag(controlsInstance, 'input')[0];
     </code></pre>
@@ -300,6 +320,31 @@ expect(AgeStore.toggleAgeSelected).
 
 <section>
     <h2>Expanded React Test Utils</h2>
+</section>
+
+<section>
+    <h2>Page Component</h2>
+    <pre><code data-trim class="js">
+render: function() {
+  return (
+    &lt;div className="page"&gt;
+      &lt;div className="header-title"&gt;
+        &lt;h1&gt;County Population by Age Range&lt;/h1&gt;
+      &lt;/div&gt;
+
+      &lt;Controls
+        ageData={this.ageData}
+        selectedAges={this.state.selectedAges} /&gt;
+      &lt;List
+        ageData={this.ageData}
+        selectedAges={this.state.selectedAges} /&gt;
+      &lt;StateMap
+        ageData={this.ageData}
+        selectedAges={this.state.selectedAges} /&gt;
+    &lt;/div&gt;
+  );
+}
+    </code></pre>
 </section>
 
 <section>
@@ -342,16 +387,44 @@ expect(controlsInstance.props.selectedAges).toEqual({...});
 
 <section>
     <pre><code data-trim class="js">
-findRenderedDOMComponentsWithSelector(
+<div>
+  <ul id="user-list">
+    ...
+  </ul>
+  <ul id="company-list">
+    ...
+  </ul>
+</div>
+    </code></pre>
+    <pre class="fragment"><code data-trim class="js">
+scryRenderedDOMComponentsWithSelector(
     instance,
-    '.user-list li.last'
+    '#user-list li'
 );
     </code></pre>
+</section>
 
-        <pre><code data-trim class="js">
+<section>
+    <h2>Find component using tags and classes</h2>
+    <pre><code data-trim class="js">
+<div class="current-status">
+  <span class="failed">
+    <span>Request failed...</span>
+    <button>Retry</button>
+  </span>
+
+  <span class="passed">
+    <span>Request completed successfully</span>
+    <button>Ok</button>
+  </span>
+  ...
+</div>
+    </code></pre>
+
+    <pre class="fragment"><code data-trim class="js">
 findRenderedDOMComponentsWithSelector(
     instance,
-    '#county-list a'
+    '.current-status .passed button'
 );
     </code></pre>
 </section>
