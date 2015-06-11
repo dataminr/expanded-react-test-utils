@@ -1,6 +1,7 @@
 {
   "name": "expanded-react-test-utils",
   "version": "0.1.0",
+  "main": "dist/ExpandedTestUtils.min.js",
   "repository": {
     "type": "git",
     "url": "git@github.com:dataminr/expanded-react-test-utils.git"
@@ -27,15 +28,15 @@
   ],
   "devDependencies": {
     "jasmine-expect": "1.22.3",
-    "reveal.js": "3.1.0"
-  },
-  "dependencies": {
-    "lodash": "3.9.0",
-    "requirejs": "2.1.17",
-    "react": "0.13.3",
-    "react-router": "0.13.3",
+    "requirejs": "2.1.18",
+    "reveal.js": "3.1.0",
     "jquery": "2.1.4",
     "highmaps": "1.0.1"
+  },
+  "dependencies": {
+    "lodash": "3.9.3",
+    "react": "0.13.3",
+    "react-router": "0.13.3"
   },
   "author": "Dataminr",
   "license": "MIT"
