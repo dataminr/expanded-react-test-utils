@@ -41,7 +41,14 @@ module.exports = function(grunt) {
     ]);
 
     /**
-     * Runs all tests
+     * Use --filter {/folder|file} to run filtered tests with coverage and without thresholds
+     */
+    grunt.registerTask('jasmineFilter',[
+        'jasmine:cov'
+    ]);
+
+    /**
+     * Runs all tests with static analysis and coverage.
      */
     grunt.registerTask('test',[
         'shell:cleanCompiledDirectory',
@@ -51,8 +58,9 @@ module.exports = function(grunt) {
     ]);
 
     /**
-     * Run jasmine tests and open browser to run and view results there. Useful to
-     * help debug tests by being able to open dev tools and add debugger statements.
+     * Run jasmine tests without coverage and open browser to run and view results there. Useful to
+     * help debug tests by being able to open dev tools and add debugger statements. It is also beneficial
+     * to use --filter {/folder|file} to limit the number of tests that run while developing unit tests.
      */
     grunt.registerTask('jasmineDebug', [
         'jasmine:debug',

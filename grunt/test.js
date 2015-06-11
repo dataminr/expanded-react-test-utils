@@ -50,12 +50,12 @@ module.exports = function(grunt, options) {
                         replace: false,
                         coverage: 'bin/coverage/app/coverage.json',
                         report: 'bin/coverage/app',
-                        thresholds: {
+                        thresholds: grunt.cli.tasks[0] === "test" ? {
                             lines: 90,
                             statements: 90,
                             branches: 50,
                             functions: 75
-                        },
+                        } : {},
                         template: require('grunt-template-jasmine-requirejs'),
                         templateOptions: {
                             requireConfigFile: jasmineConfig.requireConfigFile,

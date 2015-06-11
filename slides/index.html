@@ -408,64 +408,36 @@ findRenderedDOMComponentsWithSelector(
 </section>
 
 <section>
-    <h3>Run Unit Tests and Check for Lint</h3>
-    <pre><code  data-trim class="js">
-grunt.registerTask('test',[
-  'shell:cleanCompiledDirectory',
-  'shell:jsxCompile',
-  'eslint',
-  'jasmine:cov'
-]);
-    </code></pre>
+    <h2>Unit Testing Necessities</h2>
+    <ul>
+        <li><b style="color: cornflowerblue">Static code analysis</b></li>
+        <li>Run unit tests
+            <ul>
+                <li>Command Line
+                    <ul>
+                        <li>All tests</li>
+                        <li>Filter folder or file</li>
+                        <li>Easy access to failures</li>
+                    </ul>
+                </li>
+                <li>Browser
+                    <ul>
+                        <li>Debug unit tests and code</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Code coverage inspection and thresholds</li>
+        <li>Run CI when pushing code and creating pull requests</li>
+    </ul>
 </section>
 
 <section>
-    <h3>Run Unit Tests and Open in Browser to Debug</h3>
-    <pre><code  data-trim class="js">
-grunt.registerTask('jasmineDebug', [
-  'jasmine:debug',
-  'open:test',
-  'connect'
-]);
+    <h2>Static Code Analysis</h2>
+    <pre><code data-trim class="js">
+grunt eslint
     </code></pre>
-</section>
-
-<section>
-    <h3>Run Test Task and Open Test Coverage Results</h3>
-    <pre><code  data-trim class="js">
-grunt.registerTask('test:cov',[
-  'test',
-  'open:cov',
-  'connect'
-]);
-    </code></pre>
-</section>
-
-<section>
-    <h2>Task Configuration</h2>
-    <pre style="font-size: .4em"><code data-trim class="js">
-var port = '9001';
-var connect = require('../node_modules/grunt-contrib-connect/tasks/connect');
-var jasmineConfig = {
-  src: ['app/compiled/**/*.js', '!app/compiled/lib/*',
-        '!app/compiled/main.js', '!app/compiled/**/tests/*.js'],
-  specs: ['app/compiled/**/*.test.js'],
-  helpers: [
-    'app/compiled/tests/bind-polyfill.js',
-    'bower_components/jasmine-expect/dist/jasmine-matchers.js'
-  ],
-  requireConfigFile: 'app/require.config.js',
-  compiledDir: 'app/compiled',
-  paths: {
-    ExpandedTestUtils: '../../dist/ExpandedTestUtils.min'
-  }
-};
-    </code></pre>
-</section>
-
-<section>
-    <h2>Linting Task</h2>
-    <pre><code>
+    <pre><code data-trim class="js">
 eslint:{
   target: [
     'app/**/*.js',
@@ -516,7 +488,215 @@ var unusedVar = 'What am I doing here?';
 </section>
 
 <section>
-    <h2>Debug Task</h2>
+    <h2>Unit Testing Necessities</h2>
+    <ul>
+        <li><strike style="color: dimgrey">Static code analysis</strike></li>
+        <li>Run unit tests
+            <ul>
+                <li>Command Line
+                    <ul>
+                        <li><b style="color: cornflowerblue">All tests</b></li>
+                        <li>Filter folder or file</li>
+                        <li>Easy access to failures</li>
+                    </ul>
+                </li>
+                <li>Browser
+                    <ul>
+                        <li>Debug unit tests and code</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Code coverage inspection and thresholds</li>
+        <li>Run CI when pushing code and creating pull requests</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Lint and then Run Tests </h2>
+    <h4>Used by CI</h4>
+    <pre><code data-trim class="js">
+grunt test
+    </code></pre>
+    <pre><code data-trim class="js">
+grunt.registerTask('test',[
+  'shell:cleanCompiledDirectory',
+  'shell:jsxCompile',
+  'eslint',
+  'jasmine:cov'
+]);
+    </code></pre>
+    <img src="img/grunt_test.png" />
+</section>
+
+<section>
+    <h2>Unit Testing Necessities</h2>
+    <ul>
+        <li><strike style="color: dimgrey">Static code analysis</strike></li>
+        <li>Run unit tests
+            <ul>
+                <li>Command Line
+                    <ul>
+                        <li><strike style="color: dimgrey">All tests</strike></li>
+                        <li><b style="color: cornflowerblue">Filter folder or file</b></li>
+                        <li>Easy access to failures</li>
+                    </ul>
+                </li>
+                <li>Browser
+                    <ul>
+                        <li>Debug unit tests and code</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Code coverage inspection and thresholds</li>
+        <li>Run CI when pushing code and creating pull requests</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Filter When Running Tests</h2>
+    <ul>
+        <li>Don't lint</li>
+        <li>Don't fail on coverage thresholds</li>
+    </ul>
+    <pre><code  data-trim class="js">
+grunt jasmineFilter --filter {/folder|file}
+    </code></pre>
+    <pre><code  data-trim class="js">
+grunt.registerTask('jasmineFilter',[
+  'jasmine:cov'
+]);
+    </code></pre>
+</section>
+
+<section>
+    <h2>Unit Testing Necessities</h2>
+    <ul>
+        <li><strike style="color: dimgrey">Static code analysis</strike></li>
+        <li>Run unit tests
+            <ul>
+                <li>Command Line
+                    <ul>
+                        <li><strike style="color: dimgrey">All tests</strike></li>
+                        <li><strike style="color: dimgrey">Filter folder or file</strike></li>
+                        <li><b style="color: cornflowerblue">Easy access to failures</b></li>
+                    </ul>
+                </li>
+                <li>Browser
+                    <ul>
+                        <li>Debug unit tests and code</li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Code coverage inspection and thresholds</li>
+        <li>Run CI when pushing code and creating pull requests</li>
+    </ul>
+</section>
+
+<section>
+    <pre><code  data-trim class="js">summary: true</code></pre>
+    <img src="img/test_failures.png" />
+</section>
+
+<section>
+    <h2>Unit Testing Necessities</h2>
+    <ul>
+        <li><strike style="color: dimgrey">Static code analysis</strike></li>
+        <li>Run unit tests
+            <ul>
+                <li><strike style="color: dimgrey">Command Line</strike>
+                    <ul>
+                        <li><strike style="color: dimgrey">All tests</strike></li>
+                        <li><strike style="color: dimgrey">Filter folder or file</strike></li>
+                        <li><strike style="color: dimgrey">Easy access to failures</strike></li>
+                    </ul>
+                </li>
+                <li>Browser
+                    <ul>
+                        <li><b style="color: cornflowerblue">Debug unit tests and code</b></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>Code coverage inspection and thresholds</li>
+        <li>Run CI when pushing code and creating pull requests</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Debug Unit Tests and Code</h2>
+    <pre><code  data-trim class="js">
+        grunt jasmineDebug --filter {/folder|file}
+    </code></pre>
+    <pre><code  data-trim class="js">
+grunt.registerTask('jasmineDebug', [
+  'jasmine:debug',
+  'open:test',
+  'connect'
+]);
+    </code></pre>
+</section>
+
+<section>
+    <h2>Task Requirements</h2>
+    <ul>
+        <li>Open a URL from a Grunt task</li>
+        <li>Start a Connect server</li>
+        <li>Project Configuration</li>
+    </ul>
+</section>
+
+<section>
+    <h3>Open URL and Start Server for Debugging or Coverage</h3>
+    <pre style="font-size: .4em"><code data-trim class="js">
+open: {
+  test: {
+    path: 'http://localhost:<%= connect.all.options.port%>/_SpecRunner.html'
+  },
+  cov: {
+    path: 'http://localhost:<%= connect.all.options.port%>/bin/'
+  }
+}
+    </code></pre>
+    <pre style="font-size: .4em"><code data-trim class="js">
+connect: {
+  all: {
+    options: {
+      port: port,
+      hostname: "0.0.0.0",
+      keepalive: true
+    }
+  }
+},
+    </code></pre>
+</section>
+
+<section>
+    <h2>Project Configuration</h2>
+    <pre style="font-size: .4em"><code data-trim class="js">
+var port = '9001';
+var connect = require('../node_modules/grunt-contrib-connect/tasks/connect');
+var jasmineConfig = {
+  src: ['app/compiled/**/*.js', '!app/compiled/lib/*',
+        '!app/compiled/main.js', '!app/compiled/**/tests/*.js'],
+  specs: ['app/compiled/**/*.test.js'],
+  helpers: [
+    'app/compiled/tests/bind-polyfill.js',
+    'bower_components/jasmine-expect/dist/jasmine-matchers.js'
+  ],
+  requireConfigFile: 'app/require.config.js',
+  compiledDir: 'app/compiled',
+  paths: {
+    ExpandedTestUtils: '../../dist/ExpandedTestUtils.min'
+  }
+};
+    </code></pre>
+</section>
+
+<section>
+    <h2>Task Configuration</h2>
     <pre><code data-trim class="js">
 debug: {
   src: jasmineConfig.src,
@@ -538,12 +718,50 @@ debug: {
 </section>
 
 <section>
-    <h2>Jasmine Debug</h2>
     <img src="img/jasmineDebug.png" />
 </section>
 
 <section>
-    <h2>Test with Coverage Task</h2>
+    <h2>Unit Testing Necessities</h2>
+    <ul>
+        <li><strike style="color: dimgrey">Static code analysis</strike></li>
+        <li><strike style="color: dimgrey">Run unit tests</strike>
+            <ul>
+                <li><strike style="color: dimgrey">Command Line</strike>
+                    <ul>
+                        <li><strike style="color: dimgrey">All tests</strike></li>
+                        <li><strike style="color: dimgrey">Filter folder or file</strike></li>
+                        <li><strike style="color: dimgrey">Easy access to failures</strike></li>
+                    </ul>
+                </li>
+                <li><strike style="color: dimgrey">Browser</strike>
+                    <ul>
+                        <li><strike style="color: dimgrey">Debug unit tests and code</strike></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><b style="color: cornflowerblue">Code coverage inspection and thresholds</b></li>
+        <li>Run CI when pushing code and creating pull requests</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Code Coverage Inspection</h2>
+    <pre><code  data-trim class="js">
+grunt test:cov
+    </code></pre>
+    <pre><code  data-trim class="js">
+grunt.registerTask('test:cov',[
+  'test',
+  'open:cov',
+  'connect'
+]);
+    </code></pre>
+</section>
+
+<section>
+    <h2>Task Configuration</h2>
     <pre style="font-size: .35em"><code data-trim class="js">
 cov: {
   src: jasmineConfig.src,
@@ -556,12 +774,12 @@ cov: {
       replace: false,
       coverage: 'bin/coverage/app/coverage.json',
       report: 'bin/coverage/app',
-      thresholds: {
+      thresholds: grunt.cli.tasks[0] === "test" ? {
         lines: 90,
         statements: 90,
         branches: 50,
         functions: 75
-      },
+      } : {},
       template: require('grunt-template-jasmine-requirejs'),
       templateOptions: {
         requireConfigFile: jasmineConfig.requireConfigFile,
@@ -595,29 +813,28 @@ cov: {
 </section>
 
 <section>
-    <h3>Start Server and Open URL for Tests or Coverage</h3>
-    <pre style="font-size: .4em"><code>
-connect: {
-  all: {
-    options: {
-      port: port,
-      hostname: "0.0.0.0",
-      keepalive: true
-    }
-  }
-},
-    </code></pre>
-
-    <pre class="fragment" style="font-size: .4em"><code>
-open: {
-  test: {
-    path: 'http://localhost:<%= connect.all.options.port%>/_SpecRunner.html'
-  },
-  cov: {
-    path: 'http://localhost:<%= connect.all.options.port%>/bin/'
-  }
-}
-    </code></pre>
+    <h2>Unit Testing Necessities</h2>
+    <ul>
+        <li><strike style="color: dimgrey">Static code analysis</strike></li>
+        <li><strike style="color: dimgrey">Run unit tests</strike>
+            <ul>
+                <li><strike style="color: dimgrey">Command Line</strike>
+                    <ul>
+                        <li><strike style="color: dimgrey">All tests</strike></li>
+                        <li><strike style="color: dimgrey">Filter folder or file</strike></li>
+                        <li><strike style="color: dimgrey">Easy access to failures</strike></li>
+                    </ul>
+                </li>
+                <li><strike style="color: dimgrey">Browser</strike>
+                    <ul>
+                        <li><strike style="color: dimgrey">Debug unit tests and code</strike></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><strike style="color: dimgrey">Code coverage inspection and thresholds</strike></li>
+        <li><b style="color: cornflowerblue">Run CI when pushing code and creating pull requests</b></li>
+    </ul>
 </section>
 
 <section>
