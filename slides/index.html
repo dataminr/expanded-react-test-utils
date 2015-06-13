@@ -63,11 +63,11 @@
 
 <section>
     <h1>Better Unit Testing in ReactJS</h1>
-    <h3>with <a href="https://github.com/dataminr/expanded-react-test-utils">expanded-react-test-utils</a></h3>
+    <h3>with <a href="https://github.com/dataminr/expanded-react-test-utils" target="_blank">expanded-react-test-utils</a></h3>
     <p>
-        <a href="https://github.com/jasonjohnson115">Jason Johnson</a> / <a href="http://twitter.com/jasonjohnson115">@jasonjohnson115</a>
+        <a href="https://github.com/jasonjohnson115" target="_blank">Jason Johnson</a> / <a href="http://twitter.com/jasonjohnson115">@jasonjohnson115</a>
         <br/>
-        <a href="https://github.com/ernieturner">Ernie Turner</a> / <a href="http://twitter.com/erniewturner">@erniewturner</a>
+        <a href="https://github.com/ernieturner" target="_blank">Ernie Turner</a> / <a href="http://twitter.com/erniewturner">@erniewturner</a>
     </p>
 </section>
 
@@ -180,6 +180,7 @@ getAgeToggleMarkup: function(key, enabled) {
     <h2>renderIntoDocument()</h2>
     <ul>
         <li>Detached DOM node</li>
+        <li>Runs full component render cycle (getInitialState, componentDidMount, render, etc)</li>
         <li>Returns React class instance</li>
     </ul>
     <pre><code data-trim class="js">
@@ -227,8 +228,14 @@ expect(label.props.children).toEqual('Under 5');
         <li>[find/scry]RenderedDOMComponentWithTag</li>
         <li>[find/scry]RenderedDOMComponentWithClass</li>
     </ul>
-    <img src="img/scryDef.png"/>
+    <br/>
+    <br/>
     <div>Requires React tree to have been rendered before use</div>
+</section>
+
+<section>
+  <h2>Scry?</h2>
+  <img src="img/scry.gif"/>
 </section>
 
 <section>
@@ -241,16 +248,17 @@ var controlMarkup =
 
     <pre class="fragment"><code data-trim class="js">
 //Render view partial
-var markup = RTU.renderIntoDocument(controlMarkup);
+var markup = ReactTestUtils.
+    renderIntoDocument(controlMarkup);
     </code></pre>
 
     <pre class="fragment"><code data-trim class="js">
 //Find elements by tag
-var checkbox =
-    RTU.findRenderedDOMComponentWithTag(markup, 'input'),
+var checkbox = ReactTestUtils.
+    findRenderedDOMComponentWithTag(markup, 'input'),
 
-var label =
-    RTU.findRenderedDOMComponentWithTag(markup, 'label');
+var label = ReactTestUtils.
+    findRenderedDOMComponentWithTag(markup, 'label');
     </code></pre>
 
     <pre class="fragment"><code data-trim class="js">
@@ -351,6 +359,7 @@ render: function() {
     <h2>mockReactComponent</h2>
     <ul>
         <li>Replace with plain &lt;div&gt;</li>
+        <li>Keep any existing props</li>
         <li>Add/overwrite props</li>
         <li>Requires Jasmine</li>
     </ul>
@@ -405,7 +414,6 @@ scryRenderedDOMComponentsWithSelector(
 </section>
 
 <section>
-    <h2>Find component using tags and classes</h2>
     <pre><code data-trim class="js">
 <div class="current-status">
   <span class="failed">
@@ -420,7 +428,7 @@ scryRenderedDOMComponentsWithSelector(
   ...
 </div>
     </code></pre>
-
+    <br/>
     <pre class="fragment"><code data-trim class="js">
 findRenderedDOMComponentsWithSelector(
     instance,
