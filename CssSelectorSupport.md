@@ -30,7 +30,11 @@ You can also query elements by their attributes/props directly. CSS queries that
 + `a[href$=gov]` - Finds all anchor tags where the href attribute ends with "gov".
 + `form[action*=get]` - Finds all form tags where the action attribute contains the text 'get'.
 
-Attribute selectors also work as you'd expect when using React elements instead of DOM tag names. This allows you to query for sub-components you're rendering that have specific attributes, e.g. `UserDetails[name=John]`.
+Attribute selectors also work as you'd expect when using React elements instead of DOM tag names. This allows you to query for sub-components you're rendering that have specific attributes.
+
++`UserDetails[name=John]`
++`PageMessage[type=error]`
++`UserItem[id=39]`
 
 #### Data Type Conversion
 When querying attribute values, attempts will be made to convert the value passed in to the type of the attribute being checked. If the attribute is a number, for example, we will convert the query value to a number for comparison. This is true for boolean and null values as well.
