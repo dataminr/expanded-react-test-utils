@@ -2,9 +2,9 @@
 
 Additional functions beyond the [existing ReactJS test utilities](http://facebook.github.io/react/docs/test-utils.html) to make testing quicker and easier. Adds the following functionality:
 
++ Find a component based on [CSS selector][CssSelectorSupport] instead of just tag name or class. Supports classes, IDs, tag names, pseudo selectors, and attribute selectors.
 + Fully mock child components yet still provide the ability to verify props passed to children
 + Easily render components that rely on [react-router](https://github.com/rackt/react-router)
-+ Find a component via a CSS selector instead of just by class or tag name
 + ...plus others
 
 ## Setup
@@ -90,7 +90,7 @@ beforeEach(function(){
 array scryRenderedDOMComponentsWithSelector(ReactComponent tree, string selector)
 ```
 
-Find all instances of components in the provided tree that match the provided CSS selector. Read the CSS Selector Syntax Support section below for details on what types of selectors are supported.
+Find all instances of components in the provided tree that match the provided CSS selector. Read the [CSS Selector Syntax Support][CssSelectorSupport] page  for details on what types of selectors are supported.
 
 ##### Example
 ```javascript
@@ -113,7 +113,7 @@ it('contains proper icon classes', function(){
 ReactComponent findRenderedDOMComponentWithSelector(ReactComponent tree, string selector)
 ```
 
-Find a single component in the provided tree that matches the provided CSS selector. Will throw an error if zero or more than 1 component is found. Read the CSS Selector Syntax Support section below for details on what types of selectors are supported.
+Find a single component in the provided tree that matches the provided CSS selector. Will throw an error if zero or more than 1 component is found. Read the [CSS Selector Syntax Support][CssSelectorSupport] page for details on what types of selectors are supported.
 
 ##### Example
 ```javascript
@@ -175,7 +175,7 @@ it('contains correct number of span tags', function(){
 bool findComponentCountWithSelector(ReactComponent tree, string selector, int count=1)
 ```
 
-Used to ensure that the correct number of elements with the provided CSS selector are present in the provided tree. Provides a quick way to ensure that the right number of elements are present. The count defaults to 1 if not provided. Read the CSS Selector Syntax Support section below for details on what types of selectors are supported.
+Used to ensure that the correct number of elements with the provided CSS selector are present in the provided tree. Provides a quick way to ensure that the right number of elements are present. The count defaults to 1 if not provided. Read the [CSS Selector Syntax Support][CssSelectorSupport] page for details on what types of selectors are supported.
 
 ##### Example
 ```javascript
@@ -189,10 +189,6 @@ it('contains proper icon classes', function(){
 });
 ```
 
-## CSS Selector Syntax Support
-
-For methods in which a CSS selector is provided, the selector is expected to be fairly basic and just use DOM elements, IDs, and class names, such as `span.userLabel`, `#listContainer`, `.itemlist .itemContent`, or `.actionList tr.odd`. Support for more fancy CSS3 selectors (e.g. pseduo selectors) is not yet present.
-
 ## Additional Examples
 
 Check out the `/app` directory for more in-depth examples of each of these methods. Or also read the presentation in `/slides` for more information.
@@ -200,3 +196,5 @@ Check out the `/app` directory for more in-depth examples of each of these metho
 ## License
 
 MIT
+
+[CssSelectorSupport]: CssSelectorSupport.md
