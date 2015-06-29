@@ -26,12 +26,13 @@ module.exports.tasks = {
                 paths: {
                     CssSelectorParser: "CssSelectorParser",
                     TestLocation: "TestLocation",
+                    SelectorMatchers: "SelectorMatchers",
                     react: "empty:",
                     "react-router": "empty:",
                     "lodash": "empty:"
                 },
                 name: "ExpandedTestUtils",
-                out: "dist/ExpandedTestUtils.min.js",
+                out: "dist/ExpandedTestUtils.js",
                 optimize: 'none'
             }
         }
