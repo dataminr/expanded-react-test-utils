@@ -1,0 +1,8 @@
+app
+bin
+grunt
+lib
+slides
+.*
+Gruntfile.js
+init.sh
