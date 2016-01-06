@@ -8,3 +8,4 @@ _SpecRunner.html
 **/coverage
 .DS_Store
 .jshintrc
+npm-debug.log
