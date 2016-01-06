@@ -8,7 +8,6 @@
         "amd": true
     },
     "rules": {
-        "no-comma-dangle": 0,
         "eol-last": 0,
         "quotes": 0,
         "yoda": 0,

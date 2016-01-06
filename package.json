@@ -1,6 +1,6 @@
 {
   "name": "expanded-react-test-utils",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "keywords": [
     "expanded-react-test-utils"
   ],
@@ -20,6 +20,7 @@
   "bugs": {
     "url": "https://github.com/dataminr/expanded-react-test-utils/issues"
   },
+  "main": "dist/ExpandedTestUtils.js",
   "homepage": "https://github.com/dataminr/expanded-react-test-utils",
   "devDependencies": {
     "bower": "1.4.1",
