@@ -6,3 +6,7 @@ slides
 .*
 Gruntfile.js
 init.sh
+_SpecRunner.html
+bower.json
+bower_components
+CssSelectorSupport.md
