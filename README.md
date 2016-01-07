@@ -19,7 +19,7 @@ bower install expanded-react-test-utils --save-dev
 In your unit test RequireJS configuration, add the following line
 
 ```javascript
-ExpandedTestUtils: '/bower_components/expanded-react-test-utils/dist/ExpandedTestUtils.min'
+ExpandedTestUtils: '/bower_components/expanded-react-test-utils/dist/ExpandedTestUtils'
 ```
 
 ## Testing Methods
@@ -69,10 +69,10 @@ describe('item tests', function(){
 
 ### getRouterComponent
 ```javascript
-ReactComponent getRouterComponent(ReactComponent component, object props, string path)
+ReactComponent getRouterComponent(Router, ReactComponent component, object props, string path)
 ```
 
-Similar to the existing `renderIntoDocument` method, but wraps component within a mock `Router` so all router mixins and functionality work properly.
+Similar to the existing `renderIntoDocument` method, but wraps component within a mock `Router` so all router mixins and functionality work properly. Must provide instance of `react-router` Router component to mock.
 
 ##### Example
 ```javascript

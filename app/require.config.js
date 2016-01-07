@@ -10,7 +10,7 @@ require.config({
         lodash: '../../bower_components/lodash/lodash.min',
         'montana-map': 'http://code.highcharts.com/mapdata/countries/us/us-mt-all',
         react: '../../bower_components/react/react-with-addons',
-        'react-router': '../../bower_components/react-router/build/umd/ReactRouter.min'
+        'react-addons-test-utils': '../../node_modules/react-addons-test-utils/index'
     },
 
     shim: {

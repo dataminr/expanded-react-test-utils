@@ -12,7 +12,7 @@ var jasmineConfig = {
     requireConfigFile: 'app/require.config.js',
     compiledDir: 'app/compiled',
     paths: {
-        ExpandedTestUtils: '../../dist/ExpandedTestUtils.min'
+        ExpandedTestUtils: '../../dist/ExpandedTestUtils'
     }
 };
 

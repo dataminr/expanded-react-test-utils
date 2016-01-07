@@ -29,7 +29,8 @@ module.exports.tasks = {
                     SelectorMatchers: "SelectorMatchers",
                     react: "empty:",
                     "react-router": "empty:",
-                    "lodash": "empty:"
+                    "lodash": "empty:",
+                    "react-addons-test-utils": "empty:"
                 },
                 name: "ExpandedTestUtils",
                 out: "dist/ExpandedTestUtils.js",

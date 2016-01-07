@@ -613,13 +613,13 @@ define('SelectorMatchers',['require','lodash'],function(require) {
     return {
         /**
          * Given an array, reduces the items based on the provided parsed CSS pseudo selector.
-         * @param  {Object} rule   Parsed pseudo CSS selector
-         * @param  {Array} matches Array of currently matched items
-         * @return {Array}         Reduced matches based on selector processing
+         * @param  {Object} element Element to test
+         * @param  {Object} rule    Parsed pseudo CSS selector
+         * @return {Array}          Reduced matches based on selector processing
          */
         doesElementMatchSelector: function(element, rule){
-            var elementClassName = element.props.className,
-                elementID = element.props.id,
+            var elementClassName = element.className,
+                elementID = element.id,
                 elementTagName = element.tagName,
                 elementDisplayName = element.constructor.displayName;
 
@@ -667,7 +667,7 @@ define('SelectorMatchers',['require','lodash'],function(require) {
          * @return {Bool}                 Whether element matches all attribute rules
          */
         attributeMatcher: function(attributeRules, element){
-            for(var i=0; i<attributeRules.length; i++){
+            for(var i = 0; i < attributeRules.length; i++){
                 var elementProperty = element.props[attributeRules[i].name],
                     operator = attributeRules[i].operator,
                     value = attributeRules[i].value;
@@ -689,7 +689,7 @@ define('SelectorMatchers',['require','lodash'],function(require) {
          * Checks if the element matches the provided tag name (if DOM node) or
          * display name (if React component)
          * @param  {String} ruleTag     Tag name of CSS rule
-         * @param  {String} elementTag  Tag name of element
+         * @param  {String} tagName     Tag name of element
          * @param  {String} displayName Display name of element
          * @return {Bool}               Whether element matches tag query
          */
@@ -724,7 +724,7 @@ define('SelectorMatchers',['require','lodash'],function(require) {
             if(!elementClassName){
                 return false;
             }
-            for(var i=0; i<ruleClassName.length; i++){
+            for(var i = 0; i < ruleClassName.length; i++){
                 if((' ' + elementClassName + ' ').indexOf(' ' + ruleClassName[i] + ' ') === -1){
                     return false;
                 }
@@ -738,7 +738,7 @@ define('SelectorMatchers',['require','lodash'],function(require) {
          * @return {Bool}           True if the provided element has no children, false otherwise
          */
         empty: function(element){
-            return element.props.children === undefined || element.props.children === null || (_.isArray(element.props.children) && element.props.children.length === 0);
+            return element.childNodes.length == 0;
         },
 
         /**
@@ -753,12 +753,12 @@ define('SelectorMatchers',['require','lodash'],function(require) {
                 return false;
             }
 
-            var inputType = element.props.type.toLowerCase();
+            var inputType = element.tagName.toLowerCase();
             if(inputType !== 'checkbox' && inputType !== 'radio'){
                 return false;
             }
 
-            return element.props.checked !== undefined || element.props.defaultChecked !== undefined;
+            return element.checked !== undefined;
         },
 
         /**
@@ -811,17 +811,15 @@ define('SelectorMatchers',['require','lodash'],function(require) {
         }
     };
 });
-define('TestLocation',['require','react-router'],function(require) {
-
-    var Router = require('react-router');
-
+define('TestLocation',['require'],function(require) {
     /**
      * A location that is convenient for testing and does not require a DOM. Copy of
      * TestLocation file in react-router (modules/Location/TestLocation). Copied here
      * because it isn't included as part of the bower package.
      */
-    function TestLocation(history) {
+    function TestLocation(history, Router) {
         this.history = history || [];
+        this.Router = Router;
         this.listeners = [];
         this.updateHistoryLength();
     }
@@ -829,7 +827,7 @@ define('TestLocation',['require','react-router'],function(require) {
     TestLocation.prototype = {
         needsDOM: false,
         updateHistoryLength: function () {
-            Router.History.length = this.history.length;
+            this.Router.History.length = this.history.length;
         },
         notifyChange: function (type) {
             for (var i = 0, len = this.listeners.length; i < len; ++i){
@@ -865,14 +863,13 @@ define('TestLocation',['require','react-router'],function(require) {
     };
     return TestLocation;
 });
-define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelectorParser','SelectorMatchers','TestLocation'],function(require) {
+/*global spyOn*/
+define('ExpandedTestUtils',['require','react','lodash','react-addons-test-utils','CssSelectorParser','SelectorMatchers','TestLocation'],function(require) {
     'use strict';
 
     var React = require('react');
-    var Router = require('react-router');
     var _ = require('lodash');
-    var Route = Router.Route;
-    var ReactTestUtils = React.addons.TestUtils;
+    var ReactTestUtils = require('react-addons-test-utils');
     var CssSelectorParser = require('CssSelectorParser');
     var SelectorMatchers = require('SelectorMatchers');
     var TestLocation = require('TestLocation');
@@ -884,6 +881,7 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
         'checked',
     ];
 
+    /* eslint-disable */
     /**
      * NOT CURRENTLY USED: I wrote this originally thinking it would be useful, but then found
      * another solution, but I didn't want to remove this code in case it becomes useful in the future
@@ -913,12 +911,13 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
         }
         return ret;
     }
+    /* eslint-enable */
 
     /**
      * Convert a CSS selector into an AST.
      * @param  {String} selector Selector to parse
-     * @return {Object}          Parsed selector
-     * @throws Exception If selector cannot be parsed
+     * @return {Object}          Parsed selector rule
+     * @throws Exception         If selector cannot be parsed
      */
     function parseCssSelector(selector){
         var parser = new CssSelectorParser();
@@ -932,8 +931,8 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
 
     /**
      * Validate that rules are simple and don't include parsing we don't yet support
-     * @param  {[type]} rule [description]
-     * @return {[type]}      [description]
+     * @param  {Object} rule Rule definition to parse
+     * @throws {Error}       If rule contains unsupported syntax
      */
     function validateParsedCssRule(rule){
         if(rule.pseudos){
@@ -942,7 +941,7 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
             }
             rule.pseudos = rule.pseudos[0];
             if(supportedPsuedoSelectors.indexOf(rule.pseudos.name) === -1 ){
-                throw new Error("The '" + rule.pseudos.name +  "' pseudo selector is currently not supported.");
+                throw new Error("The '" + rule.pseudos.name + "' pseudo selector is currently not supported.");
             }
         }
         if(rule.nestingOperator){
@@ -963,7 +962,7 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
         if(subRule){
             var subMatches = [];
             validateParsedCssRule(subRule);
-            for(var i=0; i<matches.length; i++){
+            for(var i = 0; i < matches.length; i++){
                 subMatches = subMatches.concat(findAllElementsWithSelector(matches[i], subRule, true));
             }
             return subMatches;
@@ -974,10 +973,10 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
     /**
      * Generates matcher function to pass into the React TestUtils findAllInRenderedTree given the
      * rule to match
-     * @param  {ReactElement} root         The root node to search within
-     * @param  {Object}       rule         Parsed CSS rule to match
-     * @param  {Bool}         omitRootNode Whether we should ignore the root element from rule matching. If set to true only children will be matched
-     * @return {Function}                  Matcher function which checks against tag names and class names
+     * @param  {ReactElement} root     The root node to search within
+     * @param  {Object}       rule     Parsed CSS rule to match
+     * @param  {Bool}         omitRoot Whether we should ignore the root element from rule matching. If set to true only children will be matched
+     * @return {Function}              Matcher function which checks against tag names and class names
      */
     function elementRuleMatcher(root, rule, omitRoot){
         return function(element){
@@ -1030,21 +1029,22 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
 
         /**
          * Returns a rendered React component that requires the react-router.
+         * @param  {Object} Router         Instance of react-router Router class.
          * @param  {Object} reactComponent React component instance to render
          * @param  {Object} props          Properties to add to rendered component
          * @param  {String} path           Path necessary to render. If component uses a <Router.Link> component, it's 'to'
          *                                 attribute must exist as a path, so pass in the same name here.
          * @return {Object}                Rendered instance of the reactComponent
          */
-        getRouterComponent: function(reactComponent, props, path) {
+        getRouterComponent: function(Router, reactComponent, props, path) {
             var component;
             var div = document.createElement('div');
-            var routes = React.createElement(Route, {name: path, handler: reactComponent});
-            var loc = new TestLocation(['/' + path]);
+            var routes = React.createElement(Router.Route, {name: path, handler: reactComponent});
+            var loc = new TestLocation(['/' + path], Router);
             props = props || {};
 
             Router.run(routes, loc, function (Handler) {
-                var mainComponent = React.render(React.createElement(Handler, React.__spread({},  props)), div);
+                var mainComponent = React.render(React.createElement(Handler, React.__spread({}, props)), div);
                 component = ReactTestUtils.findRenderedComponentWithType(mainComponent, reactComponent);
             });
 
@@ -1099,7 +1099,7 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
         /**
          * Determines if the number of elements found with the provided class name in the tree is equal to the
          * expected size provided.
-         * @param  {ReactElement} component Rendered React element to check
+         * @param  {ReactElement} root      Rendered React element to check
          * @param  {String}       className Classname to look for
          * @param  {number}       [count=1] Number of times it should appear, defaults to 1 if not provided
          * @return {Bool}                   True if component with class name was found the correct number of times
@@ -1119,7 +1119,7 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
         /**
          * Determines if the number of elements found with the provided tag name in the tree is equal to the
          * expected size provided.
-         * @param  {ReactElement} component Rendered React element to check
+         * @param  {ReactElement} root      Rendered React element to check
          * @param  {String}       tagName   DOM tag name to look for
          * @param  {number}       [count=1] Number of times it should appear, defaults to 1 if not provided
          * @return {Bool}                   True if component with class name was found the correct number of times
@@ -1139,7 +1139,7 @@ define('ExpandedTestUtils',['require','react','react-router','lodash','CssSelect
         /**
          * Determines if the number of elements found with the provided selector is equal to the
          * expected size provided.
-         * @param  {ReactElement} component Rendered React element to check
+         * @param  {ReactElement} root      Rendered React element to check
          * @param  {String}       selector  Simple CSS selector to find
          * @param  {number}       [count=1] Number of times it should appear, defaults to 1 if not provided
          * @return {Bool}                   True if components matching selector were found the expected number of times
