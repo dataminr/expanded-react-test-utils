@@ -3,11 +3,12 @@ bin
 grunt
 lib
 slides
-.*
+.eslintrc
+.gitignore
+_SpecRunner.html
+CssSelectorSupport.md
 Gruntfile.js
 init.sh
-_SpecRunner.html
-bower.json
-bower_components
-CssSelectorSupport.md
 npm-debug.log
+webpack.config.js
+tests.webpack.js

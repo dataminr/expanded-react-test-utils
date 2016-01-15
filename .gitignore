@@ -1,11 +1,8 @@
 **/node_modules
-**/bower_components
 .sass-cache/
 .grunt/
-**/compiled
-app/dist
 _SpecRunner.html
 **/coverage
 .DS_Store
-.jshintrc
 npm-debug.log
+dist

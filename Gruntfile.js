@@ -9,26 +9,14 @@ module.exports = function(grunt) {
     });
 
     grunt.initConfig(configs);
-
-    grunt.loadNpmTasks('grunt-contrib-connect');
-    grunt.loadNpmTasks('grunt-contrib-compass');
-    grunt.loadNpmTasks('grunt-contrib-jasmine');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-contrib-requirejs');
-    grunt.loadNpmTasks('grunt-eslint');
-    grunt.loadNpmTasks('grunt-open');
-    grunt.loadNpmTasks('grunt-shell-spawn');
+    require("matchdep").filterAll("grunt-*").forEach(grunt.loadNpmTasks);
 
     /**
      * Default task to be used by developers. Clean up compiled directories, compile JSX/SASS and
      * start watchers for compile-on-file-change
      */
     grunt.registerTask('default', [
-        'shell:cleanCompiledDirectory',
-        'compass',
-        'requirejs',
-        'shell:jsxWatcher',
-        'watch'
+        'webpack-dev-server:start'
     ]);
 
     /**
@@ -40,31 +28,11 @@ module.exports = function(grunt) {
     ]);
 
     /**
-     * Use --filter {/folder|file} to run filtered tests with coverage and without thresholds
-     */
-    grunt.registerTask('jasmineFilter',[
-        'jasmine:cov'
-    ]);
-
-    /**
      * Runs all tests with static analysis and coverage.
      */
     grunt.registerTask('test',[
-        'shell:cleanCompiledDirectory',
-        'shell:jsxCompile',
         'eslint',
-        'jasmine:cov'
-    ]);
-
-    /**
-     * Run jasmine tests without coverage and open browser to run and view results there. Useful to
-     * help debug tests by being able to open dev tools and add debugger statements. It is also beneficial
-     * to use --filter {/folder|file} to limit the number of tests that run while developing unit tests.
-     */
-    grunt.registerTask('jasmineDebug', [
-        'jasmine:debug',
-        'open:test',
-        'connect'
+        'karma'
     ]);
 
     /**
@@ -74,5 +42,12 @@ module.exports = function(grunt) {
         'test',
         'open:cov',
         'connect'
+    ]);
+
+    /**
+     * Compiles all unit test code into ES5 using babel and moves to dist directory
+     */
+    grunt.registerTask('build', [
+        'shell:build',
     ]);
 };
