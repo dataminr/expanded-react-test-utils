@@ -9,17 +9,13 @@ Additional functions beyond the [existing ReactJS test utilities](http://faceboo
 
 ## Setup
 
-#### Bower Installation
-
 ```bash
-bower install expanded-react-test-utils --save-dev
+npm install --save-dev expanded-react-test-utils
 ```
 
-#### RequireJS Config
-In your unit test RequireJS configuration, add the following line
-
+From within your unit test files:
 ```javascript
-ExpandedTestUtils: '/bower_components/expanded-react-test-utils/dist/ExpandedTestUtils'
+var ExpandedReactTestUtils = require('expanded-react-test-utils');
 ```
 
 ## Testing Methods
@@ -29,20 +25,20 @@ ExpandedTestUtils: '/bower_components/expanded-react-test-utils/dist/ExpandedTes
 //Mock single component
 JasmineSpy mockReactComponent(ReactComponent component, object additionalProps)
 //Mock multiple components
-JasmineSPy mockReactComponent(object mocks)
+JasmineSpy mockReactComponent(object mocks)
 ```
 
 *Requires global [Jasmine](http://jasmine.github.io/) include for spies*
 
-Fully mocks a component given it's name and replaces it with an empty DIV at render time. Also allows you to append any additional props to the component which will overwrite values passed to child. This method is ideally called once before all component unit tests are run.
+Fully mocks a component given it's name and replaces it with an empty component at render time. Also allows you to append any additional props to the component which will overwrite values passed to child. This method is ideally called once before all component unit tests are run.
 
 ##### Example
 ```javascript
 before(function(){
     //Mock out a the 'Item' React component, and add the provided className to all found instances
-    mockReactComponent('Item', {className: 'mocked-item-class'});
+    ExpandedReactTestUtils.mockReactComponent('Item');
     //Can also be written as:
-    mockReactComponent({
+    ExpandedReactTestUtils.mockReactComponent({
         Item: {className: 'mocked-item-class'}
     });
 });
@@ -56,9 +52,9 @@ beforeEach(function(){
 
 describe('item tests', function(){
     it('renders correct number of Item components', function(){
-        var items = ReactTestUtils.findRenderedDOMComponentWithClass(
+        var items = ExpandedReactTestUtils.findRenderedDOMComponentWithSelector(
             itemList, 
-            'mocked-item-class'
+            'ItemList'
         );
         expect(items.length).toEqual(3);
     });
@@ -77,9 +73,26 @@ Similar to the existing `renderIntoDocument` method, but wraps component within 
 ##### Example
 ```javascript
 beforeEach(function(){
-    itemList = ExpandedTestUtils.getRouterComponent(ItemList, {count: 3}, 'results');
+    itemList = ExpandedReactTestUtils.getRouterComponent(ItemList, {count: 3}, 'results');
     //Render the <ItemList/> component into the DOM, but wrap it in a 
     //mocked router. The path provided will be the route to be matched.
+});
+```
+
+***
+
+### renderPartial
+```javascript
+ReactComponent renderPartial(ReactElement partial)
+```
+
+With the changes introduced in React 0.14, you can no longer pass in a ReactElement into TestUtils.renderIntoDocument. Instead a React Component must be passed. This method wraps your ReactElement in a mock component and returns the rendered result.
+
+##### Example
+```javascript
+it('renders proper markup', function(){
+    var result = ExpandedReactTestUtils.renderPartial(<div className="test"></div>);
+    expect(ExpandedReactTestUtils.findComponentCountWithClassname(result, 'test')).toBeTrue();
 });
 ```
 
@@ -96,9 +109,9 @@ Find all instances of components in the provided tree that match the provided CS
 ```javascript
 it('contains proper icon classes', function(){
     //Get the list of all elements matching the selector
-    var icons = ExpandedTestUtils.scryRenderedDOMComponentsWithSelector(
+    var icons = ExpandedReactTestUtils.scryRenderedDOMComponentsWithSelector(
         itemList, 
-        'span.user-item .fa-error'
+        'span.user-item'
     );
 
     expect(icons.length).toEqual(3);
@@ -119,9 +132,9 @@ Find a single component in the provided tree that matches the provided CSS selec
 ```javascript
 it('contains proper icon classes', function(){
     //Find the correct submit button via selector and simulate a click event
-    var submitButton = ExpandedTestUtils.findRenderedDOMComponentWithSelector(
+    var submitButton = ExpandedReactTestUtils.findRenderedDOMComponentWithSelector(
         itemList, 
-        '.submit-section button'
+        '.submit-button'
     );
 
     ReactTestUtils.Simulate.click(submitButton);
@@ -141,7 +154,7 @@ Used to ensure that the correct number of elements with the provided class name 
 ```javascript
 it('contains proper icon classes', function(){
     //Ensure that this tree contains 3 elements with fa-user class
-    expect(ExpandedTestUtils.findComponentCountWithClassname(
+    expect(ExpandedReactTestUtils.findComponentCountWithClassname(
         itemList, 
         'fa-user', 
         3
@@ -162,7 +175,7 @@ Used to ensure that the correct number of elements with the provided tag name ar
 ```javascript
 it('contains correct number of span tags', function(){
     //Assert that there are no failure elements in the tree
-    expect(ExpandedTestUtils.findComponentCountWithTag(
+    expect(ExpandedReactTestUtils.findComponentCountWithTag(
         itemList, 
         'span', 
         3
@@ -181,9 +194,9 @@ Used to ensure that the correct number of elements with the provided CSS selecto
 ```javascript
 it('contains proper icon classes', function(){
     //Assert that there are no failure elements in the tree
-    expect(ExpandedTestUtils.findComponentCountWithSelector(
+    expect(ExpandedReactTestUtils.findComponentCountWithSelector(
         itemList, 
-        '.item-list span.failure', 
+        'span.failure', 
         0
     )).toEqual(true);
 });

@@ -6,15 +6,11 @@ COLOR_GREEN="\x1b[32m"
 COLOR_RESET="\x1b[0m"
 
 # perform fresh install of dependencies
-rm -rf bower_components
 rm -rf node_modules
 rm -rf coverage
-rm -rf app/compiled
 rm -rf app/dist
 npm cache clean
-bower cache clean
 npm install
-bower install
 
 if [ $? -ne 0 ]; then
   echo "$COLOR_RED"

@@ -1,6 +1,6 @@
 # CSS Selector Syntax Support
 
-For test methods which take a CSS selector string, the following different types of CSS selectors are supported. These types can be used in combination in a single string, just like in normal CSS.
+For test methods which take a CSS selector string, the following different types of CSS selectors are supported. There is only support for a single non-nested tag. So you can do things like `{tagName}.{className}` but you cannot query for nested elements like `{tagName} .{className}`.
 
 ### Element name
 Elements can be queried based on their tag name for DOM nodes, or by their `displayName` for React elements.
