@@ -30,11 +30,13 @@ JasmineSpy mockReactComponent(object mocks)
 
 *Requires global [Jasmine](http://jasmine.github.io/) include for spies*
 
-Fully mocks a component given it's name and replaces it with an empty component at render time. Also allows you to append any additional props to the component which will overwrite values passed to child. This method is ideally called once before all component unit tests are run.
+Fully mocks a component given it's name and replaces it with an empty component of the same name at render time. Also allows you to append any additional props to the component which will overwrite values passed to child. This method is ideally called once before all component unit tests are run.
+
+Once mocked, use the `findRenderedDOMComponentWithSelector` to find instances of the mocked component in the rendered tree. You can then use the results of that function to assert that the props you pass to child components are correct.
 
 ##### Example
 ```javascript
-before(function(){
+beforeAll(function(){
     //Mock out a the 'Item' React component, and add the provided className to all found instances
     ExpandedReactTestUtils.mockReactComponent('Item');
     //Can also be written as:
