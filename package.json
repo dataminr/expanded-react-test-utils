@@ -1,7 +1,7 @@
 {
   "name": "expanded-react-test-utils",
   "description": "Additional unit testing utilities for unit testing React applications",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "keywords": [
     "expanded-react-test-utils"
   ],
@@ -42,7 +42,7 @@
     "karma-spec-reporter": "0.0.23",
     "karma-webpack": "^1.7.0",
     "load-grunt-configs": "0.4.3",
-    "lodash": "^3.9.0",
+    "lodash": "^3.10.1",
     "matchdep": "^1.0.0",
     "node-sass": "^3.4.2",
     "phantomjs": "^1.9.19",
@@ -59,6 +59,6 @@
   "peerDependencies": {
     "react": "0.14.x",
     "react-addons-test-utils": "0.14.x",
-    "lodash": "3.9.x"
+    "lodash": "3.10.x"
   }
 }
