@@ -1,7 +1,7 @@
 {
   "name": "expanded-react-test-utils",
   "description": "Additional unit testing utilities for unit testing React applications",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "keywords": [
     "expanded-react-test-utils"
   ],
@@ -47,9 +47,9 @@
     "node-sass": "^3.4.2",
     "phantomjs": "^1.9.19",
     "phantomjs-polyfill": "0.0.1",
-    "react": "^0.14.6",
-    "react-addons-test-utils": "^0.14.6",
-    "react-dom": "^0.14.6",
+    "react": "^15.0.2",
+    "react-addons-test-utils": "^15.0.2",
+    "react-dom": "^15.0.2",
     "requirejs": "^2.1.22",
     "sass-loader": "^3.1.2",
     "style-loader": "^0.13.0",
@@ -57,8 +57,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "peerDependencies": {
-    "react": "0.14.x",
-    "react-addons-test-utils": "0.14.x",
+    "react": "^0.14.0 || ^15.0.0",
+    "react-addons-test-utils": "^0.14.0 || ^15.0.0",
     "lodash": "3.10.x"
   }
 }
