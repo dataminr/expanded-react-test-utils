@@ -1,7 +1,7 @@
 {
   "name": "expanded-react-test-utils",
   "description": "Additional unit testing utilities for unit testing React applications",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "keywords": [
     "expanded-react-test-utils"
   ],
