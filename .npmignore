@@ -1,6 +1,5 @@
 grunt
 lib
-.eslintrc
 .gitignore
 CssSelectorSupport.md
 Gruntfile.js
