@@ -204,10 +204,6 @@ it('contains proper icon classes', function(){
 });
 ```
 
-## Additional Examples
-
-Check out the `/app` directory for more in-depth examples of each of these methods. Or also read the presentation in `/slides` for more information.
-
 ## License
 
 MIT
