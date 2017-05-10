@@ -5,7 +5,6 @@ module.exports.tasks = {
     shell:{
         build: {
             command: [
-                //'grunt test',
                 'rm -rf dist',
                 'mkdir dist',
                 'chmod 777 dist',
@@ -22,4 +21,3 @@ module.exports.tasks = {
         }
     }
 };
-

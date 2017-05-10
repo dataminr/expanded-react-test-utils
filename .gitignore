@@ -1,8 +1,6 @@
 **/node_modules
 .sass-cache/
 .grunt/
-_SpecRunner.html
-**/coverage
 .DS_Store
 npm-debug.log
 dist
