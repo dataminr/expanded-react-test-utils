@@ -1,14 +1,6 @@
-app
-bin
 grunt
 lib
-slides
-.eslintrc
 .gitignore
-_SpecRunner.html
 CssSelectorSupport.md
 Gruntfile.js
-init.sh
 npm-debug.log
-webpack.config.js
-tests.webpack.js
